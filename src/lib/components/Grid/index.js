@@ -544,6 +544,7 @@ const GridBase = memo(({
     const handleDelete = async function () {
 
         let gridApi = `${model.controllerType === 'cs' ? withControllersUrl : url}${model.api || api}`
+        console.log({ id: record?.id, api: gridApi, setIsLoading, setError: snackbar.showError, setErrorMessage })
         const result = await deleteRecord({ id: record?.id, api: gridApi, setIsLoading, setError: snackbar.showError, setErrorMessage });
         if (result === true) {
             setIsDeleting(false);
@@ -855,6 +856,7 @@ const GridBase = memo(({
             )}
             {errorMessage && (<DialogComponent open={!!errorMessage} onConfirm={clearError} onCancel={clearError} title="Info" hideCancelButton={true} > {errorMessage}</DialogComponent>)
             }
+            {console.log(record)}
             {isDeleting && !errorMessage && (<DialogComponent open={isDeleting} onConfirm={handleDelete} onCancel={() => setIsDeleting(false)} title="Confirm Delete"> {`${'Are you sure you want to delete'} ${record?.name}?`}</DialogComponent>)}
         </div >
     );

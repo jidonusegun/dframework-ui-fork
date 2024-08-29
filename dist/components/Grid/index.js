@@ -730,6 +730,13 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
   };
   const handleDelete = async function handleDelete() {
     let gridApi = "".concat(model.controllerType === 'cs' ? withControllersUrl : url).concat(model.api || api);
+    console.log({
+      id: record === null || record === void 0 ? void 0 : record.id,
+      api: gridApi,
+      setIsLoading,
+      setError: snackbar.showError,
+      setErrorMessage
+    });
     const result = await (0, _crudHelper.deleteRecord)({
       id: record === null || record === void 0 ? void 0 : record.id,
       api: gridApi,
@@ -1131,7 +1138,7 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
     onCancel: clearError,
     title: "Info",
     hideCancelButton: true
-  }, " ", errorMessage), isDeleting && !errorMessage && /*#__PURE__*/_react.default.createElement(_index2.DialogComponent, {
+  }, " ", errorMessage), console.log(record), isDeleting && !errorMessage && /*#__PURE__*/_react.default.createElement(_index2.DialogComponent, {
     open: isDeleting,
     onConfirm: handleDelete,
     onCancel: () => setIsDeleting(false),
