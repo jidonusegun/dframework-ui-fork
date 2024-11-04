@@ -147,12 +147,7 @@ const GridPreferences = _ref => {
     return schema;
   }, []);
   (0, _react.useEffect)(() => {
-    const filteredPrefs = preferences === null || preferences === void 0 ? void 0 : preferences.filter(pref => {
-      if (pref.prefId === 0) {
-        return false;
-      }
-      return true;
-    });
+    const filteredPrefs = Array.isArray(preferences) ? preferences.filter(pref => pref.prefId !== 0) : [];
     setFilteredPrefs(filteredPrefs);
   }, [preferences]);
   const formik = (0, _formik.useFormik)({
@@ -208,7 +203,7 @@ const GridPreferences = _ref => {
   const savePreference = async values => {
     var _filterModel$items;
     const presetName = values.prefName.trim();
-    const preferenceAlreadyExists = preferences.findIndex(ele => ele.prefName === presetName);
+    const preferenceAlreadyExists = preferences.length > 0 && (preferences === null || preferences === void 0 ? void 0 : preferences.findIndex(ele => ele.prefName === presetName));
     const isNotCoolRDefaultName = isNotCoolRDefault(presetName);
     if (preferenceAlreadyExists > -1 && formType === formTypes.Add || isNotCoolRDefaultName) {
       setOpenPreferenceExistsModal(true);
@@ -424,7 +419,7 @@ const GridPreferences = _ref => {
     dense: true,
     divider: (preferences === null || preferences === void 0 ? void 0 : preferences.length) > 0,
     onClick: () => openModal(formTypes.Manage, false)
-  }, "Manage Preferences"), preferences === null || preferences === void 0 ? void 0 : preferences.map((ele, key) => {
+  }, "Manage Preferences"), (preferences === null || preferences === void 0 ? void 0 : preferences.length) > 0 && (preferences === null || preferences === void 0 ? void 0 : preferences.map((ele, key) => {
     const {
       prefName,
       prefDesc,
@@ -439,7 +434,7 @@ const GridPreferences = _ref => {
     }, /*#__PURE__*/_react.default.createElement(_material.ListItemText, {
       primary: prefName
     }));
-  })), /*#__PURE__*/_react.default.createElement(_material.Dialog, {
+  }))), /*#__PURE__*/_react.default.createElement(_material.Dialog, {
     open: openDialog,
     maxWidth: formType === formTypes.Manage ? 'md' : 'sm',
     fullWidth: true

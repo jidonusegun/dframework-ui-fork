@@ -49,6 +49,7 @@ const StateProvider = _ref => {
     return isDateFormatOnly ? 'DD-MM-YYYY' : 'DD-MM-YYYY hh:mm:ss A';
   }
   async function getAllSavedPreferences(_ref2) {
+    var _response$preferences;
     let {
       preferenceName,
       Username,
@@ -82,7 +83,7 @@ const StateProvider = _ref => {
     });
     dispatchData({
       type: _actions.default.TOTAL_PREFERENCES,
-      payload: response === null || response === void 0 ? void 0 : response.preferences.length
+      payload: response === null || response === void 0 || (_response$preferences = response.preferences) === null || _response$preferences === void 0 ? void 0 : _response$preferences.length
     });
   }
   async function applyDefaultPreferenceIfExists(_ref3) {
@@ -108,7 +109,7 @@ const StateProvider = _ref => {
       dispatchData
     });
     let userPreferenceCharts = response !== null && response !== void 0 && response.prefValue ? JSON.parse(response.prefValue) : tablePreferenceEnums[preferenceName];
-    if (userPreferenceCharts) {
+    if (userPreferenceCharts && gridRef !== null && gridRef !== void 0 && gridRef.current) {
       userPreferenceCharts === null || userPreferenceCharts === void 0 || userPreferenceCharts.gridColumn.forEach(ele => {
         if (gridRef.current.getColumnIndex(ele.field) !== -1) {
           gridRef.current.setColumnWidth(ele.field, ele.width);
