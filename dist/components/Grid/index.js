@@ -936,6 +936,7 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
       fetchData(isPivotExport ? 'export' : undefined, undefined, e.target.dataset.contentType, columns, isPivotExport, isElasticScreen);
     }
   };
+  console.log('loggggggggggggggggggggggggggggggggggggggg');
   (0, _react.useEffect)(() => {
     // if (isGridPreferenceFetched) {
     // fetchData();

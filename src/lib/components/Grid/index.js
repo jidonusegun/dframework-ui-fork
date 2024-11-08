@@ -682,6 +682,7 @@ const GridBase = memo(({
             fetchData(isPivotExport ? 'export' : undefined, undefined, e.target.dataset.contentType, columns, isPivotExport, isElasticScreen);
         }
     };
+    console.log('loggggggggggggggggggggggggggggggggggggggg')
     useEffect(() => {
         // if (isGridPreferenceFetched) {
             // fetchData();
