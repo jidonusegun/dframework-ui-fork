@@ -938,7 +938,7 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
   };
   (0, _react.useEffect)(() => {
     // if (isGridPreferenceFetched) {
-    fetchData();
+    // fetchData();
     // }
   }, []);
   (0, _react.useEffect)(() => {

@@ -684,7 +684,7 @@ const GridBase = memo(({
     };
     useEffect(() => {
         // if (isGridPreferenceFetched) {
-            fetchData();
+            // fetchData();
         // }
     }, [])
 
