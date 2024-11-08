@@ -746,7 +746,7 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
     if (result === true) {
       setIsDeleting(false);
       snackbar.showMessage('Record Deleted Successfully.');
-      fetchData();
+      // fetchData();
     } else {
       setTimeout(() => {
         setIsDeleting(false);
@@ -780,7 +780,7 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
   const handleCloseOrderDetailModal = () => {
     setIsOrderDetailModalOpen(false);
     setSelectedOrder(null);
-    fetchData();
+    // fetchData();
   };
   const onAdd = () => {
     openForm(0);
@@ -916,7 +916,8 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
           isParsable: (_lookup$ele = lookup[ele]) === null || _lookup$ele === void 0 ? void 0 : _lookup$ele.isParsable
         };
       });
-      fetchData(isPivotExport ? 'export' : undefined, undefined, e.target.dataset.contentType, columns, isPivotExport, isElasticScreen);
+
+      // fetchData(isPivotExport ? 'export' : undefined, undefined, e.target.dataset.contentType, columns, isPivotExport, isElasticScreen);
     }
   };
   (0, _react.useEffect)(() => {

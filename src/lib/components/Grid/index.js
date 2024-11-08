@@ -549,7 +549,7 @@ const GridBase = memo(({
         if (result === true) {
             setIsDeleting(false);
             snackbar.showMessage('Record Deleted Successfully.');
-            fetchData();
+            // fetchData();
         } else {
             setTimeout(() => {
                 setIsDeleting(false);
@@ -585,7 +585,7 @@ const GridBase = memo(({
     const handleCloseOrderDetailModal = () => {
         setIsOrderDetailModalOpen(false);
         setSelectedOrder(null);
-        fetchData();
+        // fetchData();
     };
 
 
@@ -679,7 +679,7 @@ const GridBase = memo(({
                 columns[ele] = { field: ele, width: lookup[ele].width, headerName: lookup[ele].headerName || lookup[ele].field, type: lookup[ele].type, keepLocal: lookup[ele].keepLocal === true, isParsable: lookup[ele]?.isParsable };
             })
 
-            fetchData(isPivotExport ? 'export' : undefined, undefined, e.target.dataset.contentType, columns, isPivotExport, isElasticScreen);
+            // fetchData(isPivotExport ? 'export' : undefined, undefined, e.target.dataset.contentType, columns, isPivotExport, isElasticScreen);
         }
     };
 
