@@ -441,31 +441,31 @@ const GridBase = memo(({
         if (additionalFilters) {
             finalFilters.items = [...finalFilters.items, ...additionalFilters];
         }
-        getList({
-            action,
-            page: !contentType ? page : 0,
-            pageSize: !contentType ? pageSize : 1000000,
-            sortModel,
-            filterModel: finalFilters,
-            controllerType: controllerType,
-            api: gridApi,
-            setIsLoading,
-            setData,
-            gridColumns,
-            modelConfig: model,
-            parentFilters,
-            extraParams,
-            setError: snackbar.showError,
-            contentType,
-            columns,
-            template: isPivotExport ? model?.template : null,
-            configFileName: isPivotExport ? model?.configFileName : null,
-            dispatchData,
-            showFullScreenLoader,
-            history: navigate,
-            baseFilters,
-            isElasticExport
-        });
+        // getList({
+        //     action,
+        //     page: !contentType ? page : 0,
+        //     pageSize: !contentType ? pageSize : 1000000,
+        //     sortModel,
+        //     filterModel: finalFilters,
+        //     controllerType: controllerType,
+        //     api: gridApi,
+        //     setIsLoading,
+        //     setData,
+        //     gridColumns,
+        //     modelConfig: model,
+        //     parentFilters,
+        //     extraParams,
+        //     setError: snackbar.showError,
+        //     contentType,
+        //     columns,
+        //     template: isPivotExport ? model?.template : null,
+        //     configFileName: isPivotExport ? model?.configFileName : null,
+        //     dispatchData,
+        //     showFullScreenLoader,
+        //     history: navigate,
+        //     baseFilters,
+        //     isElasticExport
+        // });
     };
     const openForm = (id, { mode } = {}) => {
         if (setActiveRecord) {
