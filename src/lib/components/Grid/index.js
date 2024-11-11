@@ -495,6 +495,7 @@ const GridBase = memo(({
                 }
             }
             const { row: record } = cellParams;
+            console.log({cellParams, record})
             const columnConfig = lookupMap[cellParams.field] || {};
             if (columnConfig.linkTo) {
                 navigate({

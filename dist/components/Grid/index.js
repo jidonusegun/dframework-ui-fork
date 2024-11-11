@@ -676,6 +676,10 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
       const {
         row: record
       } = cellParams;
+      console.log({
+        cellParams,
+        record
+      });
       const columnConfig = lookupMap[cellParams.field] || {};
       if (columnConfig.linkTo) {
         navigate({
