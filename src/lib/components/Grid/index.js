@@ -244,65 +244,65 @@ const GridBase = memo(({
         }
     }
 
-    // useEffect(() => {
-    //     dataRef.current = data;
-    // }, [data]);
+    useEffect(() => {
+        dataRef.current = data;
+    }, [data]);
 
-    // useEffect(() => {
+    useEffect(() => {
 
-    //     if (customFilters && Object.keys(customFilters) != 0) {
-    //         if (customFilters.clear) {
-    //             let filterObject = {
-    //                 items: [],
-    //                 logicOperator: "and",
-    //                 quickFilterValues: [],
-    //                 quickFilterLogicOperator: "and"
-    //             }
-    //             setFilterModel(filterObject)
-    //             return
-    //         } else {
-    //             const newArray = [];
-    //             for (const key in customFilters) {
-    //                 if (key === 'startDate' || key === 'endDate') {
-    //                     newArray.push(customFilters[key])
-    //                 } else {
-    //                     if (customFilters.hasOwnProperty(key)) {
-    //                         const newObj = {
-    //                             field: key,
-    //                             value: customFilters[key],
-    //                             operator: "equals",
-    //                             type: "string"
-    //                         };
-    //                         newArray.push(newObj);
-    //                     }
-    //                 }
-    //             }
-    //             let filterObject = {
-    //                 items: newArray,
-    //                 logicOperator: "and",
-    //                 quickFilterValues: [],
-    //                 quickFilterLogicOperator: "and"
-    //             }
-    //             setFilterModel(filterObject)
-    //         }
-    //     }
-    // }, [customFilters]);
+        if (customFilters && Object.keys(customFilters) != 0) {
+            if (customFilters.clear) {
+                let filterObject = {
+                    items: [],
+                    logicOperator: "and",
+                    quickFilterValues: [],
+                    quickFilterLogicOperator: "and"
+                }
+                setFilterModel(filterObject)
+                return
+            } else {
+                const newArray = [];
+                for (const key in customFilters) {
+                    if (key === 'startDate' || key === 'endDate') {
+                        newArray.push(customFilters[key])
+                    } else {
+                        if (customFilters.hasOwnProperty(key)) {
+                            const newObj = {
+                                field: key,
+                                value: customFilters[key],
+                                operator: "equals",
+                                type: "string"
+                            };
+                            newArray.push(newObj);
+                        }
+                    }
+                }
+                let filterObject = {
+                    items: newArray,
+                    logicOperator: "and",
+                    quickFilterValues: [],
+                    quickFilterLogicOperator: "and"
+                }
+                setFilterModel(filterObject)
+            }
+        }
+    }, [customFilters]);
 
     const lookupOptions = ({ row, field, id, ...others }) => {
         const lookupData = dataRef.current.lookups || {};
         return lookupData[lookupMap[field].lookup] || [];
     };
 
-    // useEffect(() => {
-    //     if (hideTopFilters) {
-    //         dispatchData({
-    //             type: actionsStateProvider.PASS_FILTERS_TOHEADER, payload: {
-    //                 filterButton: null,
-    //                 hidden: { search: true, operation: true, export: true, print: true, filter: true }
-    //             }
-    //         });
-    //     }
-    // }, []);
+    useEffect(() => {
+        if (hideTopFilters) {
+            dispatchData({
+                type: actionsStateProvider.PASS_FILTERS_TOHEADER, payload: {
+                    filterButton: null,
+                    hidden: { search: true, operation: true, export: true, print: true, filter: true }
+                }
+            });
+        }
+    }, []);
 
     const { gridColumns, pinnedColumns, lookupMap } = useMemo(() => {
         const baseColumnList = columns || model?.gridColumns || model?.columns;
@@ -690,37 +690,37 @@ const GridBase = memo(({
         // }
     }, [])
 
-    // useEffect(() => {
-    //     if (forAssignment || !updatePageTitle) {
-    //         return;
-    //     }
-    //     dispatchData({ type: actionsStateProvider.PAGE_TITLE_DETAILS, payload: { icon: "", titleHeading: model?.pageTitle || model?.title, titleDescription: model?.titleDescription, title: model?.title } })
-    //     return () => {
-    //         dispatchData({
-    //             type: actionsStateProvider.PAGE_TITLE_DETAILS, payload: null
-    //         })
-    //     }
-    // }, [])
+    useEffect(() => {
+        if (forAssignment || !updatePageTitle) {
+            return;
+        }
+        dispatchData({ type: actionsStateProvider.PAGE_TITLE_DETAILS, payload: { icon: "", titleHeading: model?.pageTitle || model?.title, titleDescription: model?.titleDescription, title: model?.title } })
+        return () => {
+            dispatchData({
+                type: actionsStateProvider.PAGE_TITLE_DETAILS, payload: null
+            })
+        }
+    }, [])
 
-    // useEffect(() => {
-    //     let backRoute = pathname;
+    useEffect(() => {
+        let backRoute = pathname;
 
-    //     // we do not need to show the back button for these routes
-    //     if (hideBackButton || routesWithNoChildRoute.includes(backRoute)) {
-    //         dispatchData({
-    //             type: actionsStateProvider.SET_PAGE_BACK_BUTTON,
-    //             payload: { status: false, backRoute: '' },
-    //         });
-    //         return;
-    //     }
-    //     backRoute = backRoute.split("/");
-    //     backRoute.pop();
-    //     backRoute = backRoute.join("/");
-    //     dispatchData({
-    //         type: actionsStateProvider.SET_PAGE_BACK_BUTTON,
-    //         payload: { status: true, backRoute: backRoute },
-    //     });
-    // }, [isLoading]);
+        // we do not need to show the back button for these routes
+        if (hideBackButton || routesWithNoChildRoute.includes(backRoute)) {
+            dispatchData({
+                type: actionsStateProvider.SET_PAGE_BACK_BUTTON,
+                payload: { status: false, backRoute: '' },
+            });
+            return;
+        }
+        backRoute = backRoute.split("/");
+        backRoute.pop();
+        backRoute = backRoute.join("/");
+        dispatchData({
+            type: actionsStateProvider.SET_PAGE_BACK_BUTTON,
+            payload: { status: true, backRoute: backRoute },
+        });
+    }, [isLoading]);
 
     const updateFilters = (e) => {
         const { items } = e;
