@@ -66,6 +66,19 @@ class UiModel {
         showRowsSelected: showRowsSelected
       }, props)));
     });
+    _defineProperty(this, "ChildGrid", props => {
+      return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_index.default, _extends({
+        model: this
+      }, props, {
+        customStyle: customStyle,
+        showRowsSelected: showRowsSelected
+      })), /*#__PURE__*/_react.default.createElement(_material.Divider, {
+        orientation: "horizontal",
+        sx: {
+          mt: 2
+        }
+      }));
+    });
     const {
       title,
       controllerType

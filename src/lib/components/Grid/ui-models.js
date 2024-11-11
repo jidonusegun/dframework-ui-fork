@@ -105,6 +105,12 @@ class UiModel {
   Grid = ({ match, ...props }) => {
     return <Paper><GridBase model={this} showRowsSelected={showRowsSelected} {...props} /></Paper>
   }
+  ChildGrid = (props) => {
+    return <>
+      <GridBase model={this} {...props} customStyle={customStyle} showRowsSelected={showRowsSelected} />
+      <Divider orientation='horizontal' sx={{ mt: 2 }} />
+    </>
+  }
 }
 
 export {
