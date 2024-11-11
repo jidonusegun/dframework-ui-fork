@@ -687,7 +687,7 @@ const GridBase = memo(({
         // if (isGridPreferenceFetched) {
             fetchData();
         // }
-    }, [])
+    }, [paginationModel, sortModel, filterModel, api, gridColumns, model, parentFilters, assigned, selected, available, chartFilters, isGridPreferenceFetched, reRenderKey])
 
     useEffect(() => {
         if (forAssignment || !updatePageTitle) {
