@@ -18,7 +18,7 @@ import {
     GridActionsCellItem,
     useGridApiRef
 } from '@mui/x-data-grid-premium';
-import { useMemo, useEffect, memo, useRef, useState } from 'react';
+import { useMemo, useEffect, memo, useRef, useState, useLayoutEffect } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import Typography from '@mui/material/Typography';
@@ -441,31 +441,31 @@ const GridBase = memo(({
         if (additionalFilters) {
             finalFilters.items = [...finalFilters.items, ...additionalFilters];
         }
-        // getList({
-        //     action,
-        //     page: !contentType ? page : 0,
-        //     pageSize: !contentType ? pageSize : 1000000,
-        //     sortModel,
-        //     filterModel: finalFilters,
-        //     controllerType: controllerType,
-        //     api: gridApi,
-        //     setIsLoading,
-        //     setData,
-        //     gridColumns,
-        //     modelConfig: model,
-        //     parentFilters,
-        //     extraParams,
-        //     setError: snackbar.showError,
-        //     contentType,
-        //     columns,
-        //     template: isPivotExport ? model?.template : null,
-        //     configFileName: isPivotExport ? model?.configFileName : null,
-        //     dispatchData,
-        //     showFullScreenLoader,
-        //     history: navigate,
-        //     baseFilters,
-        //     isElasticExport
-        // });
+        getList({
+            action,
+            page: !contentType ? page : 0,
+            pageSize: !contentType ? pageSize : 1000000,
+            sortModel,
+            filterModel: finalFilters,
+            controllerType: controllerType,
+            api: gridApi,
+            setIsLoading,
+            setData,
+            gridColumns,
+            modelConfig: model,
+            parentFilters,
+            extraParams,
+            setError: snackbar.showError,
+            contentType,
+            columns,
+            template: isPivotExport ? model?.template : null,
+            configFileName: isPivotExport ? model?.configFileName : null,
+            dispatchData,
+            showFullScreenLoader,
+            history: navigate,
+            baseFilters,
+            isElasticExport
+        });
     };
     const openForm = (id, { mode } = {}) => {
         if (setActiveRecord) {
@@ -549,7 +549,7 @@ const GridBase = memo(({
         if (result === true) {
             setIsDeleting(false);
             snackbar.showMessage('Record Deleted Successfully.');
-            // fetchData();
+            fetchData();
         } else {
             setTimeout(() => {
                 setIsDeleting(false);
@@ -585,7 +585,7 @@ const GridBase = memo(({
     const handleCloseOrderDetailModal = () => {
         setIsOrderDetailModalOpen(false);
         setSelectedOrder(null);
-        // fetchData();
+        fetchData();
     };
 
 
@@ -679,11 +679,11 @@ const GridBase = memo(({
                 columns[ele] = { field: ele, width: lookup[ele].width, headerName: lookup[ele].headerName || lookup[ele].field, type: lookup[ele].type, keepLocal: lookup[ele].keepLocal === true, isParsable: lookup[ele]?.isParsable };
             })
 
-            // fetchData(isPivotExport ? 'export' : undefined, undefined, e.target.dataset.contentType, columns, isPivotExport, isElasticScreen);
+            fetchData(isPivotExport ? 'export' : undefined, undefined, e.target.dataset.contentType, columns, isPivotExport, isElasticScreen);
         }
     };
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         // if (isGridPreferenceFetched) {
             fetchData();
         // }

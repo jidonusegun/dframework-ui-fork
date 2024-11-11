@@ -600,31 +600,31 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
     if (additionalFilters) {
       finalFilters.items = [...finalFilters.items, ...additionalFilters];
     }
-    // getList({
-    //     action,
-    //     page: !contentType ? page : 0,
-    //     pageSize: !contentType ? pageSize : 1000000,
-    //     sortModel,
-    //     filterModel: finalFilters,
-    //     controllerType: controllerType,
-    //     api: gridApi,
-    //     setIsLoading,
-    //     setData,
-    //     gridColumns,
-    //     modelConfig: model,
-    //     parentFilters,
-    //     extraParams,
-    //     setError: snackbar.showError,
-    //     contentType,
-    //     columns,
-    //     template: isPivotExport ? model?.template : null,
-    //     configFileName: isPivotExport ? model?.configFileName : null,
-    //     dispatchData,
-    //     showFullScreenLoader,
-    //     history: navigate,
-    //     baseFilters,
-    //     isElasticExport
-    // });
+    (0, _crudHelper.getList)({
+      action,
+      page: !contentType ? page : 0,
+      pageSize: !contentType ? pageSize : 1000000,
+      sortModel,
+      filterModel: finalFilters,
+      controllerType: controllerType,
+      api: gridApi,
+      setIsLoading,
+      setData,
+      gridColumns,
+      modelConfig: model,
+      parentFilters,
+      extraParams,
+      setError: snackbar.showError,
+      contentType,
+      columns,
+      template: isPivotExport ? model === null || model === void 0 ? void 0 : model.template : null,
+      configFileName: isPivotExport ? model === null || model === void 0 ? void 0 : model.configFileName : null,
+      dispatchData,
+      showFullScreenLoader,
+      history: navigate,
+      baseFilters,
+      isElasticExport
+    });
   };
   const openForm = function openForm(id) {
     let {
@@ -746,7 +746,7 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
     if (result === true) {
       setIsDeleting(false);
       snackbar.showMessage('Record Deleted Successfully.');
-      // fetchData();
+      fetchData();
     } else {
       setTimeout(() => {
         setIsDeleting(false);
@@ -780,7 +780,7 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
   const handleCloseOrderDetailModal = () => {
     setIsOrderDetailModalOpen(false);
     setSelectedOrder(null);
-    // fetchData();
+    fetchData();
   };
   const onAdd = () => {
     openForm(0);
@@ -916,11 +916,10 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
           isParsable: (_lookup$ele = lookup[ele]) === null || _lookup$ele === void 0 ? void 0 : _lookup$ele.isParsable
         };
       });
-
-      // fetchData(isPivotExport ? 'export' : undefined, undefined, e.target.dataset.contentType, columns, isPivotExport, isElasticScreen);
+      fetchData(isPivotExport ? 'export' : undefined, undefined, e.target.dataset.contentType, columns, isPivotExport, isElasticScreen);
     }
   };
-  (0, _react.useEffect)(() => {
+  (0, _react.useLayoutEffect)(() => {
     // if (isGridPreferenceFetched) {
     fetchData();
     // }
