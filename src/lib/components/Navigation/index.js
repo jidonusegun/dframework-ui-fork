@@ -43,10 +43,11 @@ const Navigation = ({url, onClickMenu, menuData}) => {
         <Box sx={{ width: 250 }} role="presentation">
             <MenuList>
                 {menuList?.map((menu, index) => {
+
                     return (
                         <MenuItem key={index} onClick={() => onLocationClick(menu.Url)}>
                           <ListItemIcon>
-                          <img className={menu.iconClassName} title={menu.Text} src={menu.Icon} alt={menu.Text} />
+                          {menu.Icon && <img className={menu.iconClassName} title={menu.Text} src={menu.Icon} alt={menu.Text} />}
                           </ListItemIcon>
                           <ListItemText>{menu.Text}</ListItemText>
                         </MenuItem>

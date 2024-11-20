@@ -58,7 +58,7 @@ const Navigation = _ref => {
     return /*#__PURE__*/_react.default.createElement(_material.MenuItem, {
       key: index,
       onClick: () => onLocationClick(menu.Url)
-    }, /*#__PURE__*/_react.default.createElement(_ListItemIcon.default, null, /*#__PURE__*/_react.default.createElement("img", {
+    }, /*#__PURE__*/_react.default.createElement(_ListItemIcon.default, null, menu.Icon && /*#__PURE__*/_react.default.createElement("img", {
       className: menu.iconClassName,
       title: menu.Text,
       src: menu.Icon,
