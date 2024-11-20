@@ -18,7 +18,7 @@ import {
     GridActionsCellItem,
     useGridApiRef
 } from '@mui/x-data-grid-premium';
-import { useMemo, useEffect, memo, useRef, useState, useLayoutEffect } from 'react';
+import { useMemo, useEffect, memo, useRef, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import Typography from '@mui/material/Typography';
@@ -683,7 +683,7 @@ const GridBase = memo(({
         }
     };
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         // if (isGridPreferenceFetched) {
             fetchData();
         // }
