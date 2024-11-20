@@ -2,7 +2,6 @@ import React, { useState, useEffect} from 'react';
 import { transport } from '../Grid/httpRequest'
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import StoreIcon from "@mui/icons-material/Store";
 import Box from "@mui/material/Box";
 import {
     MenuItem,
@@ -16,7 +15,7 @@ const Navigation = ({url, onClickMenu, menuData}) => {
 
     const onLocationClick = (route) => {
         navigate(route);
-        onClickMenu();
+        onClickMenu && onClickMenu();
     };
 
     useEffect(() => {
@@ -47,7 +46,7 @@ const Navigation = ({url, onClickMenu, menuData}) => {
                     return (
                         <MenuItem key={index} onClick={() => onLocationClick(menu.Url)}>
                           <ListItemIcon>
-                            <StoreIcon fontSize="small" />
+                          <img className={menu.iconClassName} title={menu.Text} src={menu.Icon} alt={menu.Text} />
                           </ListItemIcon>
                           <ListItemText>{menu.Text}</ListItemText>
                         </MenuItem>

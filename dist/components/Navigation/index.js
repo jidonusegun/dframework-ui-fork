@@ -11,7 +11,6 @@ var _react = _interopRequireWildcard(require("react"));
 var _httpRequest = require("../Grid/httpRequest");
 var _ListItemIcon = _interopRequireDefault(require("@mui/material/ListItemIcon"));
 var _ListItemText = _interopRequireDefault(require("@mui/material/ListItemText"));
-var _Store = _interopRequireDefault(require("@mui/icons-material/Store"));
 var _Box = _interopRequireDefault(require("@mui/material/Box"));
 var _material = require("@mui/material");
 var _reactRouterDom = require("react-router-dom");
@@ -28,7 +27,7 @@ const Navigation = _ref => {
   const [menus, setMenus] = (0, _react.useState)([]);
   const onLocationClick = route => {
     navigate(route);
-    onClickMenu();
+    onClickMenu && onClickMenu();
   };
   (0, _react.useEffect)(() => {
     const getMenu = async () => {
@@ -59,8 +58,11 @@ const Navigation = _ref => {
     return /*#__PURE__*/_react.default.createElement(_material.MenuItem, {
       key: index,
       onClick: () => onLocationClick(menu.Url)
-    }, /*#__PURE__*/_react.default.createElement(_ListItemIcon.default, null, /*#__PURE__*/_react.default.createElement(_Store.default, {
-      fontSize: "small"
+    }, /*#__PURE__*/_react.default.createElement(_ListItemIcon.default, null, /*#__PURE__*/_react.default.createElement("img", {
+      className: menu.iconClassName,
+      title: menu.Text,
+      src: menu.Icon,
+      alt: menu.Text
     })), /*#__PURE__*/_react.default.createElement(_ListItemText.default, null, menu.Text));
   })));
 };
