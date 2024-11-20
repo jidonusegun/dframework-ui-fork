@@ -19,5 +19,6 @@ import {StateProvider, useStateContext, useRouter, RouterProvider} from './compo
 import useMobile from './components/useMobile';
 import CustomLoader from './components/CustomLoader';
 import httpRequest, { transport } from './components/Grid/httpRequest';
+import Navigation from './components/Navigation';
 
-export {SnackbarProvider, SnackbarContext, useSnackbar, DialogComponent, UiModel, GridBase, RouterProvider, MuiTypography, PageTitle, locales, useLocalization, daDKGrid, deDEGrid, elGRGrid, esESGrid, frFRGrid, itITGrid, ptPT, trTRGrid,   StateProvider, useStateContext,HelpModal,useMobile, useRouter, CustomLoader, httpRequest, transport };
+export {SnackbarProvider, SnackbarContext, useSnackbar, DialogComponent, UiModel, GridBase, RouterProvider, MuiTypography, PageTitle, locales, useLocalization, daDKGrid, deDEGrid, elGRGrid, esESGrid, frFRGrid, itITGrid, ptPT, trTRGrid,   StateProvider, useStateContext,HelpModal,useMobile, useRouter, CustomLoader, httpRequest, transport, Navigation };
