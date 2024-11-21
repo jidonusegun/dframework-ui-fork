@@ -21,7 +21,8 @@ const Navigation = _ref => {
   let {
     url,
     onClickMenu,
-    menuData
+    menuData,
+    iconClassName
   } = _ref;
   const navigate = (0, _reactRouterDom.useNavigate)();
   const [menus, setMenus] = (0, _react.useState)([]);
@@ -59,7 +60,7 @@ const Navigation = _ref => {
       key: index,
       onClick: () => onLocationClick(menu.Url)
     }, /*#__PURE__*/_react.default.createElement(_ListItemIcon.default, null, menu.Icon && /*#__PURE__*/_react.default.createElement("img", {
-      className: menu.iconClassName,
+      className: iconClassName,
       title: menu.Text,
       src: menu.Icon,
       alt: menu.Text

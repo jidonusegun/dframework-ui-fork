@@ -9,7 +9,7 @@ import {
   } from "@mui/material";
   import { useNavigate } from 'react-router-dom';
 
-const Navigation = ({url, onClickMenu, menuData}) => {
+const Navigation = ({url, onClickMenu, menuData, iconClassName}) => {
     const navigate = useNavigate();
     const [menus, setMenus] = useState([]);
 
@@ -47,7 +47,7 @@ const Navigation = ({url, onClickMenu, menuData}) => {
                     return (
                         <MenuItem key={index} onClick={() => onLocationClick(menu.Url)}>
                           <ListItemIcon>
-                          {menu.Icon && <img className={menu.iconClassName} title={menu.Text} src={menu.Icon} alt={menu.Text} />}
+                          {menu.Icon && <img className={iconClassName} title={menu.Text} src={menu.Icon} alt={menu.Text} />}
                           </ListItemIcon>
                           <ListItemText>{menu.Text}</ListItemText>
                         </MenuItem>
