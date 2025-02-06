@@ -50,7 +50,6 @@ var _LocalizedDatePicker = _interopRequireDefault(require("./LocalizedDatePicker
 var _actions = _interopRequireDefault(require("../useRouter/actions"));
 var _GridPreference = _interopRequireDefault(require("./GridPreference"));
 var _CustomDropdownmenu = _interopRequireDefault(require("./CustomDropdownmenu"));
-var _reactI18next = require("react-i18next");
 const _excluded = ["row", "field", "id"],
   _excluded2 = ["filterField"];
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
@@ -127,8 +126,6 @@ const convertDefaultSort = defaultSort => {
 };
 const ExportMenuItem = _ref => {
   let {
-    tTranslate,
-    tOpts,
     handleExport,
     contentType,
     type,
@@ -139,7 +136,7 @@ const ExportMenuItem = _ref => {
     "data-type": type,
     "data-content-type": contentType,
     "data-is-pivot-export": isPivotExport
-  }, tTranslate("Export", tOpts), " ", type.charAt(0).toUpperCase() + type.slice(1).toLowerCase());
+  }, "Export", " ", type.charAt(0).toUpperCase() + type.slice(1).toLowerCase());
 };
 ExportMenuItem.propTypes = {
   hideMenu: _propTypes.default.func
@@ -247,14 +244,6 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
   const [isDeleting, setIsDeleting] = (0, _react.useState)(false);
   const [record, setRecord] = (0, _react.useState)(null);
   const snackbar = (0, _index.useSnackbar)();
-  const {
-    t: translate,
-    i18n
-  } = (0, _reactI18next.useTranslation)();
-  const tOpts = {
-    t: translate,
-    i18n
-  };
   const isClient = model.isClient === true ? 'client' : 'server';
   const [errorMessage, setErrorMessage] = (0, _react.useState)('');
   const [sortModel, setSortModel] = (0, _react.useState)(convertDefaultSort(defaultSort || (model === null || model === void 0 ? void 0 : model.defaultSort)));
@@ -331,34 +320,19 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
       "valueOptions": "lookup"
     },
     "date": {
-      "valueFormatter": _ref3 => {
-        let {
-          value
-        } = _ref3;
-        return formatDate(value, true, false, stateData.dateTime);
-      },
+      "valueFormatter": value => formatDate(value, true, false, stateData.dateTime),
       "filterOperators": (0, _LocalizedDatePicker.default)({
         columnType: "date"
       })
     },
     "dateTime": {
-      "valueFormatter": _ref4 => {
-        let {
-          value
-        } = _ref4;
-        return formatDate(value, false, false, stateData.dateTime);
-      },
+      "valueFormatter": value => formatDate(value, false, false, stateData.dateTime),
       "filterOperators": (0, _LocalizedDatePicker.default)({
         columnType: "datetime"
       })
     },
     "dateTimeLocal": {
-      "valueFormatter": _ref5 => {
-        let {
-          value
-        } = _ref5;
-        return formatDate(value, false, false, stateData.dateTime);
-      },
+      "valueFormatter": value => formatDate(value, false, false, stateData.dateTime),
       "filterOperators": (0, _LocalizedDatePicker.default)({
         type: "dateTimeLocal",
         convert: true
@@ -409,13 +383,13 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
       }
     }
   }, [customFilters]);
-  const lookupOptions = _ref6 => {
+  const lookupOptions = _ref3 => {
     let {
         row,
         field,
         id
-      } = _ref6,
-      others = _objectWithoutProperties(_ref6, _excluded);
+      } = _ref3,
+      others = _objectWithoutProperties(_ref3, _excluded);
     const lookupData = dataRef.current.lookups || {};
     return lookupData[lookupMap[field].lookup] || [];
   };
@@ -486,7 +460,7 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
         overrides.cellClassName = "mui-grid-linkColumn";
       }
       finalColumns.push(_objectSpread(_objectSpread({
-        headerName: model === null || model === void 0 ? void 0 : model.tTranslate(column.headerName || column.label, tOpts)
+        headerName: column.headerName || column.label
       }, column), overrides));
       if (column.pinned) {
         pinnedColumns[column.pinned === 'right' ? 'right' : 'left'].push(column.field);
@@ -600,7 +574,7 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
       pageSize,
       page
     } = paginationModel;
-    let gridApi = "".concat(model.controllerType === 'cs' ? withControllersUrl : url).concat(model.api || api);
+    let gridApi = "".concat(model.controllerType === 'cs' ? withControllersUrl : url || "").concat(model.api || api);
     let controllerType = model === null || model === void 0 ? void 0 : model.controllerType;
     if (isPivotExport) {
       gridApi = "".concat(withControllersUrl).concat(model === null || model === void 0 ? void 0 : model.pivotAPI);
@@ -708,6 +682,10 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
       const {
         row: record
       } = cellParams;
+      console.log({
+        cellParams,
+        record
+      });
       const columnConfig = lookupMap[cellParams.field] || {};
       if (columnConfig.linkTo) {
         navigate({
@@ -820,11 +798,11 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
       }
     }
   };
-  const updateAssignment = _ref7 => {
+  const updateAssignment = _ref4 => {
     let {
       unassign,
       assign
-    } = _ref7;
+    } = _ref4;
     const assignedValues = Array.isArray(selected) ? selected : selected.length ? selected.split(',') : [];
     const finalValues = unassign ? assignedValues.filter(id => !unassign.includes(parseInt(id))) : [...assignedValues, ...assign];
     onAssignChange(typeof selected === 'string' ? finalValues.join(',') : finalValues);
@@ -839,29 +817,15 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
       unassign: selection
     });
   };
-  (0, _react.useEffect)(() => {
-    removeCurrentPreferenceName({
-      dispatchData
-    });
-    getAllSavedPreferences({
-      preferenceName: model.preferenceId,
-      history: navigate,
-      dispatchData,
-      Username,
-      preferenceApi,
-      tablePreferenceEnums
-    });
-    applyDefaultPreferenceIfExists({
-      preferenceName: model.preferenceId,
-      history: navigate,
-      dispatchData,
-      Username,
-      gridRef: apiRef,
-      setIsGridPreferenceFetched,
-      preferenceApi,
-      tablePreferenceEnums
-    });
-  }, []);
+
+  // useEffect(() => {
+  //     if(model.preferenceId) {
+  //         removeCurrentPreferenceName({ dispatchData });
+  //         getAllSavedPreferences({ preferenceName: model.preferenceId, history: navigate, dispatchData, Username, preferenceApi, tablePreferenceEnums });
+  //         applyDefaultPreferenceIfExists({ preferenceName: model.preferenceId, history: navigate, dispatchData, Username, gridRef: apiRef, setIsGridPreferenceFetched, preferenceApi, tablePreferenceEnums });
+  //     }
+  // }, [])
+
   const CustomToolbar = function CustomToolbar(props) {
     return /*#__PURE__*/_react.default.createElement("div", {
       style: {
@@ -875,7 +839,7 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
       sx: {
         ml: 1
       }
-    }, " ", model === null || model === void 0 ? void 0 : model.tTranslate(model.gridSubTitle, tOpts)), currentPreference && /*#__PURE__*/_react.default.createElement(_Typography.default, {
+    }, " ", t(model.gridSubTitle, tOpts)), currentPreference && /*#__PURE__*/_react.default.createElement(_Typography.default, {
       className: "preference-name-text",
       variant: "h6",
       component: "h6",
@@ -883,7 +847,7 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
       sx: {
         ml: 1
       }
-    }, model === null || model === void 0 ? void 0 : model.tTranslate('Applied Preference', tOpts), " - ", currentPreference), (isReadOnly || !effectivePermissions.add && !forAssignment) && /*#__PURE__*/_react.default.createElement(_Typography.default, {
+    }, "Applied Preference - ", currentPreference), (isReadOnly || !effectivePermissions.add && !forAssignment) && /*#__PURE__*/_react.default.createElement(_Typography.default, {
       variant: "h6",
       component: "h3",
       textAlign: "center",
@@ -896,7 +860,7 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
       size: "medium",
       variant: "contained",
       className: classes.buttons
-    }, model !== null && model !== void 0 && model.customAddTextTitle ? model.customAddTextTitle : " ".concat(!showAddIcon ? "" : "Add", " ").concat(model.title)), available && /*#__PURE__*/_react.default.createElement(_Button.default, {
+    }, model !== null && model !== void 0 && model.customAddTextTitle ? model.customAddTextTitle : " ".concat(!showAddIcon ? "" : "Add", " ").concat(model.title ? model.title : 'Add')), available && /*#__PURE__*/_react.default.createElement(_Button.default, {
       startIcon: !showAddIcon ? null : /*#__PURE__*/_react.default.createElement(_Add.default, null),
       onClick: onAssign,
       size: "medium",
@@ -912,12 +876,11 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
       startIcon: /*#__PURE__*/_react.default.createElement(_FilterListOff.default, null),
       onClick: clearFilters,
       size: "small"
-    }, model === null || model === void 0 ? void 0 : model.tTranslate("CLEAR FILTER", tOpts)), effectivePermissions.export && /*#__PURE__*/_react.default.createElement(CustomExportButton, {
+    }, "CLEAR FILTER"), effectivePermissions.export && /*#__PURE__*/_react.default.createElement(CustomExportButton, {
       handleExport: handleExport,
       showPivotExportBtn: model === null || model === void 0 ? void 0 : model.showPivotExportBtn,
       showOnlyExcelExport: model.showOnlyExcelExport
     }), model.preferenceId && /*#__PURE__*/_react.default.createElement(_GridPreference.default, {
-      tTranslate: model === null || model === void 0 ? void 0 : model.tTranslate,
       preferenceName: model.preferenceId,
       gridRef: apiRef,
       columns: gridColumns,
@@ -950,7 +913,7 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
         columns[ele] = {
           field: ele,
           width: lookup[ele].width,
-          headerName: lookup[ele].headerName,
+          headerName: lookup[ele].headerName || lookup[ele].field,
           type: lookup[ele].type,
           keepLocal: lookup[ele].keepLocal === true,
           isParsable: (_lookup$ele = lookup[ele]) === null || _lookup$ele === void 0 ? void 0 : _lookup$ele.isParsable
@@ -960,9 +923,9 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
     }
   };
   (0, _react.useEffect)(() => {
-    if (isGridPreferenceFetched) {
-      fetchData();
-    }
+    // if (isGridPreferenceFetched) {
+    fetchData();
+    // }
   }, [paginationModel, sortModel, filterModel, api, gridColumns, model, parentFilters, assigned, selected, available, chartFilters, isGridPreferenceFetched, reRenderKey]);
   (0, _react.useEffect)(() => {
     if (forAssignment || !updatePageTitle) {
@@ -1125,8 +1088,7 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
     slotProps: {
       footer: {
         pagination: true,
-        apiRef,
-        tTranslate: model === null || model === void 0 ? void 0 : model.tTranslate
+        apiRef
       },
       panel: {
         placement: "bottom-end"
@@ -1162,7 +1124,7 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
     onCancel: clearError,
     title: "Info",
     hideCancelButton: true
-  }, " ", errorMessage), isDeleting && !errorMessage && /*#__PURE__*/_react.default.createElement(_index2.DialogComponent, {
+  }, " ", errorMessage), console.log(record), isDeleting && !errorMessage && /*#__PURE__*/_react.default.createElement(_index2.DialogComponent, {
     open: isDeleting,
     onConfirm: handleDelete,
     onCancel: () => setIsDeleting(false),

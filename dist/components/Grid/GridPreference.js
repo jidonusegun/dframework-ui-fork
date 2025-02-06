@@ -27,7 +27,6 @@ var _xDataGridPremium = require("@mui/x-data-grid-premium");
 var _formik = require("formik");
 var yup = _interopRequireWildcard(require("yup"));
 var _SnackBar = require("../SnackBar");
-var _reactI18next = require("react-i18next");
 var _httpRequest = _interopRequireDefault(require("./httpRequest"));
 var _StateProvider = require("../useRouter/StateProvider");
 var _actions = _interopRequireDefault(require("../useRouter/actions"));
@@ -110,7 +109,6 @@ const defaultCoolRPrefName = "coolr default";
 const GridPreferences = _ref => {
   var _stateData$gridSettin, _stateData$gridSettin2;
   let {
-    tTranslate,
     preferenceName,
     gridRef,
     columns = [],
@@ -131,14 +129,6 @@ const GridPreferences = _ref => {
   } = (0, _StateProvider.useRouter)();
   const apiRef = (0, _xDataGridPremium.useGridApiRef)();
   const snackbar = (0, _SnackBar.useSnackbar)();
-  const {
-    t: translate,
-    i18n
-  } = (0, _reactI18next.useTranslation)();
-  const tOpts = {
-    t: translate,
-    i18n
-  };
   const [openDialog, setOpenDialog] = (0, _react.useState)(false);
   const [openForm, setOpenForm] = (0, _react.useState)(false);
   const [filteredPrefs, setFilteredPrefs] = (0, _react.useState)([]);
@@ -398,9 +388,9 @@ const GridPreferences = _ref => {
     "aria-haspopup": "true",
     "aria-expanded": menuAnchorEl ? 'true' : undefined,
     onClick: handleOpen,
-    title: tTranslate('Preference', tOpts),
+    title: "Preference",
     startIcon: /*#__PURE__*/_react.default.createElement(_Settings.default, null)
-  }, tTranslate('Preferences', tOpts)), /*#__PURE__*/_react.default.createElement(_material.Menu, {
+  }, "Preferences"), /*#__PURE__*/_react.default.createElement(_material.Menu, {
     id: "grid-preference-menu",
     anchorEl: menuAnchorEl,
     open: !!menuAnchorEl,
@@ -429,12 +419,12 @@ const GridPreferences = _ref => {
     component: _material.ListItemButton,
     dense: true,
     onClick: () => openModal(formTypes.Add)
-  }, tTranslate('Add Preference', tOpts)), /*#__PURE__*/_react.default.createElement(_material.MenuItem, {
+  }, "Add Preference"), /*#__PURE__*/_react.default.createElement(_material.MenuItem, {
     component: _material.ListItemButton,
     dense: true,
     divider: (preferences === null || preferences === void 0 ? void 0 : preferences.length) > 0,
     onClick: () => openModal(formTypes.Manage, false)
-  }, tTranslate('Manage Preferences', tOpts)), (preferences === null || preferences === void 0 ? void 0 : preferences.length) > 0 && (preferences === null || preferences === void 0 ? void 0 : preferences.map((ele, key) => {
+  }, "Manage Preferences"), (preferences === null || preferences === void 0 ? void 0 : preferences.length) > 0 && (preferences === null || preferences === void 0 ? void 0 : preferences.map((ele, key) => {
     const {
       prefName,
       prefDesc,
@@ -444,10 +434,10 @@ const GridPreferences = _ref => {
       onClick: () => applySelectedPreference(prefId, key),
       component: _material.ListItem,
       key: "pref-item-".concat(key),
-      title: tTranslate(prefDesc, tOpts),
+      title: prefDesc,
       dense: true
     }, /*#__PURE__*/_react.default.createElement(_material.ListItemText, {
-      primary: tTranslate(prefName, tOpts)
+      primary: prefName
     }));
   }))), /*#__PURE__*/_react.default.createElement(_material.Dialog, {
     open: openDialog,
@@ -463,7 +453,7 @@ const GridPreferences = _ref => {
     columnGap: 2
   }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h5"
-  }, formType, " ", tTranslate('Preference', tOpts)))), /*#__PURE__*/_react.default.createElement(_material.DialogContent, null, openForm && /*#__PURE__*/_react.default.createElement(_material.Grid, {
+  }, formType, " Preference"))), /*#__PURE__*/_react.default.createElement(_material.DialogContent, null, openForm && /*#__PURE__*/_react.default.createElement(_material.Grid, {
     component: 'form',
     onSubmit: formik.handleSubmit,
     rowGap: 2,
@@ -480,11 +470,11 @@ const GridPreferences = _ref => {
     item: true,
     xs: 12
   }, /*#__PURE__*/_react.default.createElement(_material.TextField, {
-    defaultValue: tTranslate(formik.values.prefName, tOpts),
+    defaultValue: formik.values.prefName,
     variant: "outlined",
     size: "small",
     margin: "dense",
-    label: tTranslate('Preference Name', tOpts),
+    label: "Preference Name",
     name: 'prefName',
     onChange: formik.handleChange,
     error: !!formik.errors.prefName,
@@ -495,13 +485,13 @@ const GridPreferences = _ref => {
     item: true,
     xs: 12
   }, /*#__PURE__*/_react.default.createElement(_material.TextField, {
-    defaultValue: tTranslate(formik.values.prefDesc, tOpts),
+    defaultValue: formik.values.prefDesc,
     variant: "outlined",
     multiline: true,
     rows: 2,
     size: "small",
     margin: "dense",
-    label: tTranslate('Preference Description', tOpts),
+    label: "Preference Description",
     name: 'prefDesc',
     onChange: formik.handleChange,
     error: !!formik.errors.prefDesc,
@@ -516,7 +506,7 @@ const GridPreferences = _ref => {
       name: 'isDefault',
       onChange: formik.handleChange
     }),
-    label: tTranslate('Default', tOpts)
+    label: "Default"
   })), /*#__PURE__*/_react.default.createElement(_material.Grid, {
     item: true,
     xs: 12
@@ -533,7 +523,7 @@ const GridPreferences = _ref => {
     color: "primary",
     variant: "contained",
     disableElevation: true
-  }, tTranslate('Save', tOpts)), /*#__PURE__*/_react.default.createElement(_material.Button, {
+  }, "Save"), /*#__PURE__*/_react.default.createElement(_material.Button, {
     type: "button",
     startIcon: /*#__PURE__*/_react.default.createElement(_Close.default, null),
     color: "error",
@@ -541,7 +531,7 @@ const GridPreferences = _ref => {
     size: "small",
     onClick: handleDialogClose,
     disableElevation: true
-  }, tTranslate('Close', tOpts))))), openDialog && formType === formTypes.Manage && /*#__PURE__*/_react.default.createElement(_material.Grid, {
+  }, "Close")))), openDialog && formType === formTypes.Manage && /*#__PURE__*/_react.default.createElement(_material.Grid, {
     container: true
   }, /*#__PURE__*/_react.default.createElement(_material.Grid, {
     item: true,
@@ -582,7 +572,7 @@ const GridPreferences = _ref => {
     size: "small",
     onClick: () => closeModal(),
     disableElevation: true
-  }, tTranslate('Close', tOpts)))), /*#__PURE__*/_react.default.createElement(_material.Dialog, {
+  }, "Close"))), /*#__PURE__*/_react.default.createElement(_material.Dialog, {
     open: openPreferenceExistsModal,
     maxWidth: "xs",
     fullWidth: true
@@ -590,7 +580,7 @@ const GridPreferences = _ref => {
     sx: {
       fontSize: '16px'
     }
-  }, "\"", prefName, "\" ", tTranslate('name already in use, please use another name.', tOpts)), /*#__PURE__*/_react.default.createElement(_material.DialogActions, {
+  }, "\"", prefName, "\" name already in use, please use another name."), /*#__PURE__*/_react.default.createElement(_material.DialogActions, {
     sx: {
       justifyContent: 'center',
       marginTop: '4%'
@@ -601,6 +591,6 @@ const GridPreferences = _ref => {
     size: "small",
     onClick: () => setOpenPreferenceExistsModal(false),
     disableElevation: true
-  }, tTranslate('Ok', tOpts)))));
+  }, "Ok"))));
 };
 var _default = exports.default = GridPreferences;
