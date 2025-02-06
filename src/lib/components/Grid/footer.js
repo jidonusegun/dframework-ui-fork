@@ -9,7 +9,7 @@ import Button from '@mui/material/Button';
 import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
 import { useStateContext } from '../useRouter/StateProvider';
-const Footer = ({ pagination, apiRef, tTranslate }) => {
+const Footer = ({ pagination, apiRef, tTranslate }) => { 
     const page = apiRef.current.state.pagination.paginationModel.page;
     const rowsPerPage = apiRef.current.state.pagination.paginationModel.pageSize;
     const totalRows = apiRef.current.state.rows.totalRowCount;
@@ -57,7 +57,7 @@ const Footer = ({ pagination, apiRef, tTranslate }) => {
             <Box sx={{ pl: 5 }}>
                 {pagination &&
                     <>
-                        <Typography variant="p">{tTranslate('Jump to page', tOpts)}:</Typography>
+                        <Typography variant="p">{tTranslate('Jump to page', tOpts)}:</Typography> 
                         <TextField
                             sx={{ width: 70, pl: 1 }}
                             variant="standard"
@@ -68,7 +68,7 @@ const Footer = ({ pagination, apiRef, tTranslate }) => {
                             onKeyPress={handleKeyPress}
                             disabled={!totalRows}
                         />
-                        <Button disabled={!totalRows} size='small' onClick={onPageChange}>{tTranslate('Go', tOpts)}</Button>
+                        <Button disabled={!totalRows} size='small' onClick={onPageChange}>{tTranslate('Go', tOpts)}</Button> 
                     </>
                 }
             </Box>
