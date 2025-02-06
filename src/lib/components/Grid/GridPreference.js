@@ -9,7 +9,6 @@ import { DataGridPremium, GridActionsCellItem, gridFilterModelSelector, gridSort
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useSnackbar } from '../SnackBar';
-import { useTranslation } from 'react-i18next';
 import request from './httpRequest';
 // import { useRouter } from '../useRouter/useRouter';
 import { useStateContext, useRouter } from '../useRouter/StateProvider';
@@ -42,13 +41,12 @@ const initialValues = {
 };
 
 const defaultCoolRPrefName= "coolr default"
-const GridPreferences = ({ tTranslate, preferenceName, gridRef, columns = [], setIsGridPreferenceFetched }) => {
+const GridPreferences = ({ preferenceName, gridRef, columns = [], setIsGridPreferenceFetched }) => {
     const { systemDateTimeFormat, stateData, dispatchData, formatDate, removeCurrentPreferenceName, getAllSavedPreferences, applyDefaultPreferenceIfExists } = useStateContext();
     const { pathname, navigate } = useRouter();
     const apiRef = useGridApiRef();
     const snackbar = useSnackbar();
-    const { t: translate, i18n } = useTranslation()
-    const tOpts = { t: translate, i18n };
+
     const [openDialog, setOpenDialog] = useState(false);
     const [openForm, setOpenForm] = useState(false);
     const [filteredPrefs, setFilteredPrefs] = useState([]);
@@ -250,10 +248,10 @@ const GridPreferences = ({ tTranslate, preferenceName, gridRef, columns = [], se
                 aria-haspopup="true"
                 aria-expanded={menuAnchorEl ? 'true' : undefined}
                 onClick={handleOpen}
-                title={tTranslate('Preference', tOpts)}
+                title='Preference'
                 startIcon={<SettingsIcon />}
             >
-                {tTranslate('Preferences', tOpts)}
+                Preferences
             </Button>
             <Menu
                 id={`grid-preference-menu`}
@@ -279,10 +277,10 @@ const GridPreferences = ({ tTranslate, preferenceName, gridRef, columns = [], se
                 }}
             >
                 <MenuItem component={ListItemButton} dense onClick={() => openModal(formTypes.Add)}>
-                    {tTranslate('Add Preference', tOpts)}
+                    Add Preference
                 </MenuItem>
                 <MenuItem component={ListItemButton} dense divider={preferences?.length > 0} onClick={() => openModal(formTypes.Manage, false)}>
-                    {tTranslate('Manage Preferences', tOpts)}
+                    Manage Preferences
                 </MenuItem>
 
                 {preferences?.length > 0 && preferences?.map((ele, key) => {
@@ -292,10 +290,10 @@ const GridPreferences = ({ tTranslate, preferenceName, gridRef, columns = [], se
                             onClick={() => applySelectedPreference(prefId, key)}
                             component={ListItem}
                             key={`pref-item-${key}`}
-                            title={tTranslate(prefDesc, tOpts)}
+                            title={prefDesc}
                             dense
                         >
-                            <ListItemText primary={tTranslate(prefName, tOpts)} />
+                            <ListItemText primary={prefName} />
                         </MenuItem>
                     )
                 })}
@@ -304,7 +302,7 @@ const GridPreferences = ({ tTranslate, preferenceName, gridRef, columns = [], se
                 <DialogTitle sx={{ backgroundColor: '#e0e0e0', mb: 2 }}>
                     <Stack direction="row" columnGap={2}>
                         <Typography variant="h5" >
-                            {formType} {tTranslate('Preference', tOpts)}
+                            {formType} Preference
                         </Typography>
                     </Stack>
                 </DialogTitle>
@@ -326,11 +324,11 @@ const GridPreferences = ({ tTranslate, preferenceName, gridRef, columns = [], se
                         >
                             <Grid item xs={12}>
                                 <TextField
-                                    defaultValue={tTranslate(formik.values.prefName, tOpts)}
+                                    defaultValue={formik.values.prefName}
                                     variant="outlined"
                                     size="small"
                                     margin="dense"
-                                    label={tTranslate('Preference Name', tOpts)}
+                                    label='Preference Name'
                                     name={'prefName'}
                                     onChange={formik.handleChange}
                                     error={!!formik.errors.prefName}
@@ -341,13 +339,13 @@ const GridPreferences = ({ tTranslate, preferenceName, gridRef, columns = [], se
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    defaultValue={tTranslate(formik.values.prefDesc, tOpts)}
+                                    defaultValue={formik.values.prefDesc}
                                     variant="outlined"
                                     multiline
                                     rows={2}
                                     size="small"
                                     margin="dense"
-                                    label={tTranslate('Preference Description', tOpts)}
+                                    label='Preference Description'
                                     name={'prefDesc'}
                                     onChange={formik.handleChange}
                                     error={!!formik.errors.prefDesc}
@@ -364,7 +362,7 @@ const GridPreferences = ({ tTranslate, preferenceName, gridRef, columns = [], se
                                             onChange={formik.handleChange}
                                         />
                                     }
-                                    label={tTranslate('Default', tOpts)}
+                                    label='Default'
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -377,7 +375,7 @@ const GridPreferences = ({ tTranslate, preferenceName, gridRef, columns = [], se
                                         variant="contained"
                                         disableElevation
                                     >
-                                        {tTranslate('Save', tOpts)}
+                                        Save
                                     </Button>
                                     <Button
                                         type="button"
@@ -388,7 +386,7 @@ const GridPreferences = ({ tTranslate, preferenceName, gridRef, columns = [], se
                                         onClick={handleDialogClose}
                                         disableElevation
                                     >
-                                        {tTranslate('Close', tOpts)}
+                                        Close
                                     </Button>
                                 </Stack>
                             </Grid>
@@ -436,18 +434,18 @@ const GridPreferences = ({ tTranslate, preferenceName, gridRef, columns = [], se
                 {formType === formTypes.Manage && (
                     <DialogActions>
                         <Button color="error" variant="contained" size="small" onClick={() => closeModal()} disableElevation>
-                            {tTranslate('Close', tOpts)}
+                            Close
                         </Button>
                     </DialogActions>
                 )}
             </Dialog>
             <Dialog open={openPreferenceExistsModal} maxWidth='xs' fullWidth>
                 <DialogContent sx={{ fontSize: '16px' }}>
-                    "{prefName}" {tTranslate('name already in use, please use another name.', tOpts)}
+                    "{prefName}" name already in use, please use another name.
                 </DialogContent>
                 <DialogActions sx={{ justifyContent: 'center', marginTop: '4%' }}>
                     <Button color="success" variant="contained" size="small" onClick={() => setOpenPreferenceExistsModal(false)} disableElevation>
-                        {tTranslate('Ok', tOpts)}
+                        Ok
                     </Button>
                 </DialogActions>
             </Dialog>

@@ -39,7 +39,6 @@ import LocalizedDatePicker from './LocalizedDatePicker';
 import actionsStateProvider from '../useRouter/actions';
 import GridPreferences from './GridPreference';
 import CustomDropdownmenu from './CustomDropdownmenu';
-import { useTranslation } from 'react-i18next';
 
 const defaultPageSize = 10;
 const sortRegex = /(\w+)( ASC| DESC)?/i;
@@ -84,7 +83,7 @@ const convertDefaultSort = (defaultSort) => {
     }
     return orderBy;
 };
-const ExportMenuItem = ({tTranslate, tOpts, handleExport, contentType, type, isPivotExport = false }) => {
+const ExportMenuItem = ({ handleExport, contentType, type, isPivotExport = false }) => {
     return (
         <MenuItem
             onClick={handleExport}
@@ -92,7 +91,7 @@ const ExportMenuItem = ({tTranslate, tOpts, handleExport, contentType, type, isP
             data-content-type={contentType}
             data-is-pivot-export={isPivotExport}
         >
-            {tTranslate("Export", tOpts)} {type.charAt(0).toUpperCase() + type.slice(1).toLowerCase()}
+            {"Export"} {type.charAt(0).toUpperCase() + type.slice(1).toLowerCase()}
         </MenuItem>
     );
 };
@@ -175,8 +174,6 @@ const GridBase = memo(({
     const [isDeleting, setIsDeleting] = useState(false);
     const [record, setRecord] = useState(null);
     const snackbar = useSnackbar();
-    const { t: translate, i18n } = useTranslation()
-    const tOpts = { t: translate, i18n };
     const isClient = model.isClient === true ? 'client' : 'server';
     const [errorMessage, setErrorMessage] = useState('');
     const [sortModel, setSortModel] = useState(convertDefaultSort(defaultSort || model?.defaultSort));
@@ -225,19 +222,19 @@ const GridBase = memo(({
             "valueOptions": "lookup"
         },
         "date": {
-            "valueFormatter": ({ value }) => (
+            "valueFormatter": ( value ) => (
                 formatDate(value, true, false, stateData.dateTime)
             ),
             "filterOperators": LocalizedDatePicker({ columnType: "date" }),
         },
         "dateTime": {
-            "valueFormatter": ({ value }) => (
+            "valueFormatter": ( value ) => (
                 formatDate(value, false, false, stateData.dateTime)
             ),
             "filterOperators": LocalizedDatePicker({ columnType: "datetime" }),
         },
         "dateTimeLocal": {
-            "valueFormatter": ({ value }) => (
+            "valueFormatter": ( value ) => (
                 formatDate(value, false, false, stateData.dateTime)
             ),
             "filterOperators": LocalizedDatePicker({ type: "dateTimeLocal", convert: true }),
@@ -354,7 +351,7 @@ const GridBase = memo(({
             if (column.link) {
                 overrides.cellClassName = "mui-grid-linkColumn";
             }
-            finalColumns.push({ headerName: model?.tTranslate(column.headerName || column.label, tOpts), ...column, ...overrides });
+            finalColumns.push({ headerName: column.headerName || column.label, ...column, ...overrides });
             if (column.pinned) {
                 pinnedColumns[column.pinned === 'right' ? 'right' : 'left'].push(column.field);
             }
@@ -419,7 +416,7 @@ const GridBase = memo(({
     }, [columns, model, parent, permissions, forAssignment]);
     const fetchData = (action = "list", extraParams = {}, contentType, columns, isPivotExport, isElasticExport) => {
         const { pageSize, page } = paginationModel;
-        let gridApi = `${model.controllerType === 'cs' ? withControllersUrl : url}${model.api || api}`
+        let gridApi = `${model.controllerType === 'cs' ? withControllersUrl : url || ""}${model.api || api}`
 
         let controllerType = model?.controllerType;
         if (isPivotExport) {
@@ -498,6 +495,7 @@ const GridBase = memo(({
                 }
             }
             const { row: record } = cellParams;
+            console.log({cellParams, record})
             const columnConfig = lookupMap[cellParams.field] || {};
             if (columnConfig.linkTo) {
                 navigate({
@@ -618,11 +616,13 @@ const GridBase = memo(({
         updateAssignment({ unassign: selection });
     }
 
-    useEffect(() => {
-        removeCurrentPreferenceName({ dispatchData });
-        getAllSavedPreferences({ preferenceName: model.preferenceId, history: navigate, dispatchData, Username, preferenceApi, tablePreferenceEnums });
-        applyDefaultPreferenceIfExists({ preferenceName: model.preferenceId, history: navigate, dispatchData, Username, gridRef: apiRef, setIsGridPreferenceFetched, preferenceApi, tablePreferenceEnums });
-    }, [])
+    // useEffect(() => {
+    //     if(model.preferenceId) {
+    //         removeCurrentPreferenceName({ dispatchData });
+    //         getAllSavedPreferences({ preferenceName: model.preferenceId, history: navigate, dispatchData, Username, preferenceApi, tablePreferenceEnums });
+    //         applyDefaultPreferenceIfExists({ preferenceName: model.preferenceId, history: navigate, dispatchData, Username, gridRef: apiRef, setIsGridPreferenceFetched, preferenceApi, tablePreferenceEnums });
+    //     }
+    // }, [])
 
     const CustomToolbar = function (props) {
 
@@ -633,22 +633,22 @@ const GridBase = memo(({
                     justifyContent: 'space-between'
                 }}
             >
-                {model.gridSubTitle && <Typography variant="h6" component="h3" textAlign="center" sx={{ ml: 1 }}> {model?.tTranslate(model.gridSubTitle, tOpts)}</Typography>}
-                {currentPreference && <Typography className="preference-name-text" variant="h6" component="h6" textAlign="center" sx={{ ml: 1 }} >{model?.tTranslate('Applied Preference', tOpts)} - {currentPreference}</Typography>}
+                {model.gridSubTitle && <Typography variant="h6" component="h3" textAlign="center" sx={{ ml: 1 }}> {t(model.gridSubTitle, tOpts)}</Typography>}
+                {currentPreference && <Typography className="preference-name-text" variant="h6" component="h6" textAlign="center" sx={{ ml: 1 }} >Applied Preference - {currentPreference}</Typography>}
                 {(isReadOnly || (!effectivePermissions.add && !forAssignment)) && <Typography variant="h6" component="h3" textAlign="center" sx={{ ml: 1 }} > {isReadOnly ? "" : model.title}</Typography>}
-                {!forAssignment && effectivePermissions.add && !isReadOnly && !showAddIcon && <Button startIcon={!showAddIcon ? null : <AddIcon />} onClick={onAdd} size="medium" variant="contained" className={classes.buttons} >{model?.customAddTextTitle ? model.customAddTextTitle : ` ${!showAddIcon ? "" : `${"Add"}`} ${model.title}`}</Button>}
+                {!forAssignment && effectivePermissions.add && !isReadOnly && !showAddIcon && <Button startIcon={!showAddIcon ? null : <AddIcon />} onClick={onAdd} size="medium" variant="contained" className={classes.buttons} >{model?.customAddTextTitle ? model.customAddTextTitle : ` ${!showAddIcon ? "" : `${"Add"}`} ${model.title ? model.title : 'Add'}`}</Button>}
                 {available && <Button startIcon={!showAddIcon ? null : <AddIcon />} onClick={onAssign} size="medium" variant="contained" className={classes.buttons}  >{"Assign"}</Button>}
                 {assigned && <Button startIcon={!showAddIcon ? null : <RemoveIcon />} onClick={onUnassign} size="medium" variant="contained" className={classes.buttons}  >{"Remove"}</Button>}
 
                 <GridToolbarContainer {...props}>
                     <GridToolbarColumnsButton />
                     <GridToolbarFilterButton />
-                    <Button startIcon={<FilterListOffIcon />} onClick={clearFilters} size="small">{model?.tTranslate("CLEAR FILTER", tOpts)}</Button>
+                    <Button startIcon={<FilterListOffIcon />} onClick={clearFilters} size="small">{"CLEAR FILTER"}</Button>
                     {effectivePermissions.export && (
                         <CustomExportButton handleExport={handleExport} showPivotExportBtn={model?.showPivotExportBtn} showOnlyExcelExport={model.showOnlyExcelExport} />
                     )}
                     {model.preferenceId &&
-                        <GridPreferences tTranslate={model?.tTranslate} preferenceName={model.preferenceId} gridRef={apiRef} columns={gridColumns} setIsGridPreferenceFetched={setIsGridPreferenceFetched} />
+                        <GridPreferences preferenceName={model.preferenceId} gridRef={apiRef} columns={gridColumns} setIsGridPreferenceFetched={setIsGridPreferenceFetched} />
                     }
                 </GridToolbarContainer>
             </div >
@@ -674,17 +674,19 @@ const GridBase = memo(({
                 snackbar.showMessage('You cannot export while all columns are hidden... please show at least 1 column before exporting');
                 return;
             }
+
             visibleColumns.forEach(ele => {
-                columns[ele] = { field: ele, width: lookup[ele].width, headerName: lookup[ele].headerName, type: lookup[ele].type, keepLocal: lookup[ele].keepLocal === true, isParsable: lookup[ele]?.isParsable };
+                columns[ele] = { field: ele, width: lookup[ele].width, headerName: lookup[ele].headerName || lookup[ele].field, type: lookup[ele].type, keepLocal: lookup[ele].keepLocal === true, isParsable: lookup[ele]?.isParsable };
             })
 
             fetchData(isPivotExport ? 'export' : undefined, undefined, e.target.dataset.contentType, columns, isPivotExport, isElasticScreen);
         }
     };
+
     useEffect(() => {
-        if (isGridPreferenceFetched) {
+        // if (isGridPreferenceFetched) {
             fetchData();
-        }
+        // }
     }, [paginationModel, sortModel, filterModel, api, gridColumns, model, parentFilters, assigned, selected, available, chartFilters, isGridPreferenceFetched, reRenderKey])
 
     useEffect(() => {
@@ -819,8 +821,7 @@ const GridBase = memo(({
                 slotProps={{
                     footer: {
                         pagination: true,
-                        apiRef,
-                        tTranslate: model?.tTranslate
+                        apiRef
                     },
                     panel: {
                         placement: "bottom-end"
@@ -856,6 +857,7 @@ const GridBase = memo(({
             )}
             {errorMessage && (<DialogComponent open={!!errorMessage} onConfirm={clearError} onCancel={clearError} title="Info" hideCancelButton={true} > {errorMessage}</DialogComponent>)
             }
+            {console.log(record)}
             {isDeleting && !errorMessage && (<DialogComponent open={isDeleting} onConfirm={handleDelete} onCancel={() => setIsDeleting(false)} title="Confirm Delete"> {`${'Are you sure you want to delete'} ${record?.name}?`}</DialogComponent>)}
         </div >
     );
