@@ -7,6 +7,7 @@ import utcPlugin from 'dayjs/plugin/utc.js';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import AdapterDayjs from '@mui/x-date-pickers/AdapterDayjs';
 import { useStateContext } from '../useRouter/StateProvider';
+import { useTranslation } from "react-i18next";
 import utils from '../utils';
 
 dayjs.extend(utcPlugin);
@@ -17,10 +18,12 @@ const componentMap = {
 }
 const LocalizedDatePicker = (props) => {
     const { fixedFilterFormat } = utils;
-    const { item, applyValue, convert } = props;
+    const { item, applyValue, convert, tTranslate } = props;
     const { systemDateTimeFormat, stateData } = useStateContext();
     const columnType = props?.type || 'date';
     const filterFormat = fixedFilterFormat[columnType];
+    const { t: translate, i18n } = useTranslation();
+    const tOpts = { t: translate, i18n };
     const isValidDate = (date) => {
         const parsedDate = dayjs(date);
         return parsedDate.isValid() && parsedDate.year() > 1900;
@@ -64,7 +67,7 @@ const LocalizedDatePicker = (props) => {
                 format={format}
                 value={Dateformatvalue}
                 onChange={handleFilterChange}
-                slotProps={{ textField: { variant: "standard", label: "Value" } }}
+                slotProps={{ textField: { variant: "standard", label: tTranslate("Value", tOpts) } }}
                 localeText={{
                     fieldMonthPlaceholder: () => {
                         const monthAbbreviation = getMonthAbbreviation(format);

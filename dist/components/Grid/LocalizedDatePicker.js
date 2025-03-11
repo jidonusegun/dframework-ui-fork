@@ -20,6 +20,7 @@ var _utc = _interopRequireDefault(require("dayjs/plugin/utc.js"));
 var _LocalizationProvider = require("@mui/x-date-pickers/LocalizationProvider");
 var _AdapterDayjs = _interopRequireDefault(require("@mui/x-date-pickers/AdapterDayjs"));
 var _StateProvider = require("../useRouter/StateProvider");
+var _reactI18next = require("react-i18next");
 var _utils = _interopRequireDefault(require("../utils"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
@@ -41,7 +42,8 @@ const LocalizedDatePicker = props => {
   const {
     item,
     applyValue,
-    convert
+    convert,
+    tTranslate
   } = props;
   const {
     systemDateTimeFormat,
@@ -49,6 +51,14 @@ const LocalizedDatePicker = props => {
   } = (0, _StateProvider.useStateContext)();
   const columnType = (props === null || props === void 0 ? void 0 : props.type) || 'date';
   const filterFormat = fixedFilterFormat[columnType];
+  const {
+    t: translate,
+    i18n
+  } = (0, _reactI18next.useTranslation)();
+  const tOpts = {
+    t: translate,
+    i18n
+  };
   const isValidDate = date => {
     const parsedDate = (0, _dayjs.default)(date);
     return parsedDate.isValid() && parsedDate.year() > 1900;
@@ -98,7 +108,7 @@ const LocalizedDatePicker = props => {
     slotProps: {
       textField: {
         variant: "standard",
-        label: "Value"
+        label: tTranslate("Value", tOpts)
       }
     },
     localeText: {
