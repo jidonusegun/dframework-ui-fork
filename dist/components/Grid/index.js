@@ -1162,6 +1162,9 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
         labelRowsPerPage: tTranslate('Rows per page', tOpts)
       },
       toolbarQuickFilterPlaceholder: tTranslate((model === null || model === void 0 ? void 0 : model.searchPlaceholder) || 'Search...', tOpts),
+      toolbarColumns: tTranslate('Columns', tOpts),
+      toolbarFilters: tTranslate('Filters', tOpts),
+      toolbarExport: tTranslate('Export', tOpts),
       filterPanelAddFilter: tTranslate('Add filter', tOpts),
       filterPanelRemoveAll: tTranslate('Remove all', tOpts),
       filterPanelDeleteIconLabel: tTranslate('Delete', tOpts),
@@ -1187,6 +1190,10 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
       columnMenuPinToLeft: tTranslate('Pin to left', tOpts),
       columnMenuPinToRight: tTranslate('Pin to right', tOpts),
       columnMenuUnpin: tTranslate('Unpin', tOpts),
+      columnsPanelTextFieldLabel: tTranslate('Find column', tOpts),
+      columnsPanelTextFieldPlaceholder: tTranslate('Column title', tOpts),
+      columnsPanelHideAllButton: tTranslate('Hide all', tOpts),
+      columnsPanelShowAllButton: tTranslate('Show all', tOpts),
       pinToLeft: tTranslate('Pin to left', tOpts),
       pinToRight: tTranslate('Pin to right', tOpts),
       unpin: tTranslate('Unpin', tOpts)
