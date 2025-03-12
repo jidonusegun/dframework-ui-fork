@@ -341,7 +341,7 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
       },
       "filterOperators": (0, _LocalizedDatePicker.default)({
         columnType: "date",
-        tTranslate: tTranslate
+        tTranslate
       })
     },
     "dateTime": {
@@ -353,7 +353,7 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
       },
       "filterOperators": (0, _LocalizedDatePicker.default)({
         columnType: "datetime",
-        tTranslate: tTranslate
+        tTranslate
       })
     },
     "dateTimeLocal": {
@@ -366,7 +366,7 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
       "filterOperators": (0, _LocalizedDatePicker.default)({
         type: "dateTimeLocal",
         convert: true,
-        tTranslate: tTranslate
+        tTranslate
       })
     },
     "boolean": {
@@ -555,7 +555,7 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
           width: 200,
           filterOperators: (0, _LocalizedDatePicker.default)({
             columnType: "date",
-            tTranslate: tTranslate
+            tTranslate
           }),
           valueFormatter: gridColumnTypes.dateTime.valueFormatter,
           keepLocal: true
@@ -577,7 +577,7 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
           width: 200,
           filterOperators: (0, _LocalizedDatePicker.default)({
             columnType: "date",
-            tTranslate: tTranslate
+            tTranslate
           }),
           valueFormatter: gridColumnTypes.dateTime.valueFormatter,
           keepLocal: true

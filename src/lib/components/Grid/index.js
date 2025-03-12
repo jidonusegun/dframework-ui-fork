@@ -230,19 +230,19 @@ const GridBase = memo(({
             "valueFormatter": ({ value }) => (
                 formatDate(value, true, false, stateData.dateTime)
             ),
-            "filterOperators": LocalizedDatePicker({ columnType: "date", tTranslate: tTranslate }),
+            "filterOperators": LocalizedDatePicker({ columnType: "date", tTranslate }),
         },
         "dateTime": {
             "valueFormatter": ({ value }) => (
                 formatDate(value, false, false, stateData.dateTime)
             ),
-            "filterOperators": LocalizedDatePicker({ columnType: "datetime", tTranslate: tTranslate }),
+            "filterOperators": LocalizedDatePicker({ columnType: "datetime", tTranslate }),
         },
         "dateTimeLocal": {
             "valueFormatter": ({ value }) => (
                 formatDate(value, false, false, stateData.dateTime)
             ),
-            "filterOperators": LocalizedDatePicker({ type: "dateTimeLocal", convert: true, tTranslate: tTranslate }),
+            "filterOperators": LocalizedDatePicker({ type: "dateTimeLocal", convert: true, tTranslate }),
         },
         "boolean": {
             renderCell: booleanIconRenderer
@@ -417,7 +417,7 @@ const GridBase = memo(({
             if (model?.addCreatedOnColumn !== false) {
                 finalColumns.push(
                     {
-                        field: "CreatedOn", type: "dateTime", headerName: "Created On", width: 200, filterOperators: LocalizedDatePicker({ columnType: "date", tTranslate: tTranslate }), valueFormatter: gridColumnTypes.dateTime.valueFormatter, keepLocal: true
+                        field: "CreatedOn", type: "dateTime", headerName: "Created On", width: 200, filterOperators: LocalizedDatePicker({ columnType: "date", tTranslate }), valueFormatter: gridColumnTypes.dateTime.valueFormatter, keepLocal: true
                     }
                 );
             }
@@ -429,7 +429,7 @@ const GridBase = memo(({
             if (model?.addModifiedOnColumn !== false) {
                 finalColumns.push(
                     {
-                        field: "ModifiedOn", type: "dateTime", headerName: "Modified On", width: 200, filterOperators: LocalizedDatePicker({ columnType: "date", tTranslate: tTranslate }), valueFormatter: gridColumnTypes.dateTime.valueFormatter, keepLocal: true
+                        field: "ModifiedOn", type: "dateTime", headerName: "Modified On", width: 200, filterOperators: LocalizedDatePicker({ columnType: "date", tTranslate }), valueFormatter: gridColumnTypes.dateTime.valueFormatter, keepLocal: true
 
                     }
                 );
