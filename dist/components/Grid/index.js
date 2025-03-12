@@ -257,6 +257,7 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
   };
   const isClient = model.isClient === true ? 'client' : 'server';
   const [errorMessage, setErrorMessage] = (0, _react.useState)('');
+  const [locales, setLocales] = (0, _react.useState)({});
   const [sortModel, setSortModel] = (0, _react.useState)(convertDefaultSort(defaultSort || (model === null || model === void 0 ? void 0 : model.defaultSort)));
   const initialFilterModel = {
     items: [],
@@ -375,6 +376,52 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
   (0, _react.useEffect)(() => {
     dataRef.current = data;
   }, [data]);
+  (0, _react.useEffect)(() => {
+    setLocales({
+      footerRowSelected: count => count !== 1 ? "".concat(count, " ").concat(tTranslate('rows selected', tOpts)) : "".concat(count, " ").concat(tTranslate('row selected', tOpts)),
+      footerTotalRows: "".concat(tTranslate('Total rows', tOpts), ":"),
+      footerTotalVisibleRows: (visibleCount, totalCount) => "".concat(visibleCount, " ").concat(tTranslate('of', tOpts), " ").concat(totalCount),
+      MuiTablePagination: {
+        labelRowsPerPage: tTranslate('Rows per page', tOpts)
+      },
+      toolbarQuickFilterPlaceholder: tTranslate((model === null || model === void 0 ? void 0 : model.searchPlaceholder) || 'Search...', tOpts),
+      toolbarColumns: tTranslate('Columns', tOpts),
+      toolbarFilters: tTranslate('Filters', tOpts),
+      toolbarExport: tTranslate('Export', tOpts),
+      filterPanelAddFilter: tTranslate('Add filter', tOpts),
+      filterPanelRemoveAll: tTranslate('Remove all', tOpts),
+      filterPanelDeleteIconLabel: tTranslate('Delete', tOpts),
+      filterPanelOperators: {
+        and: tTranslate('And', tOpts),
+        or: tTranslate('Or', tOpts)
+      },
+      filterPanelOperatorAnd: tTranslate('And', tOpts),
+      filterPanelOperatorOr: tTranslate('Or', tOpts),
+      filterPanelColumns: tTranslate('Columns', tOpts),
+      filterPanelOperator: tTranslate('Operator', tOpts),
+      filterPanelValue: tTranslate('Value', tOpts),
+      filterPanelInputLabel: tTranslate('Filter', tOpts),
+      filterPanelInputPlaceholder: tTranslate('Filter', tOpts),
+      columnMenuLabel: tTranslate('Menu', tOpts),
+      columnMenuShowColumns: tTranslate('Show columns', tOpts),
+      columnMenuManageColumns: tTranslate('Manage columns', tOpts),
+      columnMenuFilter: tTranslate('Filter', tOpts),
+      columnMenuHideColumn: tTranslate('Hide column', tOpts),
+      columnMenuUnsort: tTranslate('Unsort', tOpts),
+      columnMenuSortAsc: tTranslate('Sort by ascending', tOpts),
+      columnMenuSortDesc: tTranslate('Sort by descending', tOpts),
+      columnMenuPinToLeft: tTranslate('Pin to left', tOpts),
+      columnMenuPinToRight: tTranslate('Pin to right', tOpts),
+      columnMenuUnpin: tTranslate('Unpin', tOpts),
+      columnsPanelTextFieldLabel: tTranslate('Find column', tOpts),
+      columnsPanelTextFieldPlaceholder: tTranslate('Column title', tOpts),
+      columnsPanelHideAllButton: tTranslate('Hide all', tOpts),
+      columnsPanelShowAllButton: tTranslate('Show all', tOpts),
+      pinToLeft: tTranslate('Pin to left', tOpts),
+      pinToRight: tTranslate('Pin to right', tOpts),
+      unpin: tTranslate('Unpin', tOpts)
+    });
+  }, [tTranslate]);
   (0, _react.useEffect)(() => {
     if (customFilters && Object.keys(customFilters) != 0) {
       if (customFilters.clear) {
@@ -1154,50 +1201,7 @@ const GridBase = /*#__PURE__*/(0, _react.memo)(_ref2 => {
       },
       pinnedColumns: pinnedColumns
     },
-    localeText: {
-      footerRowSelected: count => count !== 1 ? "".concat(count, " ").concat(tTranslate('rows selected', tOpts)) : "".concat(count, " ").concat(tTranslate('row selected', tOpts)),
-      footerTotalRows: "".concat(tTranslate('Total rows', tOpts), ":"),
-      footerTotalVisibleRows: (visibleCount, totalCount) => "".concat(visibleCount, " ").concat(tTranslate('of', tOpts), " ").concat(totalCount),
-      MuiTablePagination: {
-        labelRowsPerPage: tTranslate('Rows per page', tOpts)
-      },
-      toolbarQuickFilterPlaceholder: tTranslate((model === null || model === void 0 ? void 0 : model.searchPlaceholder) || 'Search...', tOpts),
-      toolbarColumns: tTranslate('Columns', tOpts),
-      toolbarFilters: tTranslate('Filters', tOpts),
-      toolbarExport: tTranslate('Export', tOpts),
-      filterPanelAddFilter: tTranslate('Add filter', tOpts),
-      filterPanelRemoveAll: tTranslate('Remove all', tOpts),
-      filterPanelDeleteIconLabel: tTranslate('Delete', tOpts),
-      filterPanelOperators: {
-        and: tTranslate('And', tOpts),
-        or: tTranslate('Or', tOpts)
-      },
-      filterPanelOperatorAnd: tTranslate('And', tOpts),
-      filterPanelOperatorOr: tTranslate('Or', tOpts),
-      filterPanelColumns: tTranslate('Columns', tOpts),
-      filterPanelOperator: tTranslate('Operator', tOpts),
-      filterPanelValue: tTranslate('Value', tOpts),
-      filterPanelInputLabel: tTranslate('Filter', tOpts),
-      filterPanelInputPlaceholder: tTranslate('Filter', tOpts),
-      columnMenuLabel: tTranslate('Menu', tOpts),
-      columnMenuShowColumns: tTranslate('Show columns', tOpts),
-      columnMenuManageColumns: tTranslate('Manage columns', tOpts),
-      columnMenuFilter: tTranslate('Filter', tOpts),
-      columnMenuHideColumn: tTranslate('Hide column', tOpts),
-      columnMenuUnsort: tTranslate('Unsort', tOpts),
-      columnMenuSortAsc: tTranslate('Sort by ascending', tOpts),
-      columnMenuSortDesc: tTranslate('Sort by descending', tOpts),
-      columnMenuPinToLeft: tTranslate('Pin to left', tOpts),
-      columnMenuPinToRight: tTranslate('Pin to right', tOpts),
-      columnMenuUnpin: tTranslate('Unpin', tOpts),
-      columnsPanelTextFieldLabel: tTranslate('Find column', tOpts),
-      columnsPanelTextFieldPlaceholder: tTranslate('Column title', tOpts),
-      columnsPanelHideAllButton: tTranslate('Hide all', tOpts),
-      columnsPanelShowAllButton: tTranslate('Show all', tOpts),
-      pinToLeft: tTranslate('Pin to left', tOpts),
-      pinToRight: tTranslate('Pin to right', tOpts),
-      unpin: tTranslate('Unpin', tOpts)
-    }
+    localeText: locales
   }), isOrderDetailModalOpen && selectedOrder && model.OrderModal && /*#__PURE__*/_react.default.createElement(model.OrderModal, {
     orderId: selectedOrder.OrderId,
     isOpen: true,
