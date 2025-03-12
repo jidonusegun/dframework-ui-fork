@@ -39,6 +39,7 @@ import LocalizedDatePicker from './LocalizedDatePicker';
 import actionsStateProvider from '../useRouter/actions';
 import GridPreferences from './GridPreference';
 import CustomDropdownmenu from './CustomDropdownmenu';
+import { useTranslation } from 'react-i18next';
 
 const defaultPageSize = 10;
 const sortRegex = /(\w+)( ASC| DESC)?/i;
@@ -83,7 +84,7 @@ const convertDefaultSort = (defaultSort) => {
     }
     return orderBy;
 };
-const ExportMenuItem = ({ handleExport, contentType, type, isPivotExport = false }) => {
+const ExportMenuItem = ({ tTranslate, tOpts, handleExport, contentType, type, isPivotExport = false }) => {
     return (
         <MenuItem
             onClick={handleExport}
@@ -91,7 +92,7 @@ const ExportMenuItem = ({ handleExport, contentType, type, isPivotExport = false
             data-content-type={contentType}
             data-is-pivot-export={isPivotExport}
         >
-            {"Export"} {type.charAt(0).toUpperCase() + type.slice(1).toLowerCase()}
+            {tTranslate("Export", tOpts)} {type.charAt(0).toUpperCase() + type.slice(1).toLowerCase()}
         </MenuItem>
     );
 };
@@ -174,8 +175,11 @@ const GridBase = memo(({
     const [isDeleting, setIsDeleting] = useState(false);
     const [record, setRecord] = useState(null);
     const snackbar = useSnackbar();
+    const { t: translate, i18n } = useTranslation()
+    const tOpts = { t: translate, i18n };
     const isClient = model.isClient === true ? 'client' : 'server';
     const [errorMessage, setErrorMessage] = useState('');
+    const [locales, setLocales] = useState({});
     const [sortModel, setSortModel] = useState(convertDefaultSort(defaultSort || model?.defaultSort));
     const initialFilterModel = { items: [], logicOperator: 'and', quickFilterValues: Array(0), quickFilterLogicOperator: 'and' }
     if (model.defaultFilters) {
@@ -211,6 +215,7 @@ const GridBase = memo(({
         String: 'string',
         Boolean: 'boolean'
     };
+    const tTranslate = model.tTranslate ?? ((key) => key);
 
     const OrderSuggestionHistoryFields = {
         OrderStatus: 'OrderStatusId'
@@ -222,22 +227,22 @@ const GridBase = memo(({
             "valueOptions": "lookup"
         },
         "date": {
-            "valueFormatter": ( value ) => (
+            "valueFormatter": ({ value }) => (
                 formatDate(value, true, false, stateData.dateTime)
             ),
-            "filterOperators": LocalizedDatePicker({ columnType: "date" }),
+            "filterOperators": LocalizedDatePicker({ columnType: "date", tTranslate }),
         },
         "dateTime": {
-            "valueFormatter": ( value ) => (
+            "valueFormatter": ({ value }) => (
                 formatDate(value, false, false, stateData.dateTime)
             ),
-            "filterOperators": LocalizedDatePicker({ columnType: "datetime" }),
+            "filterOperators": LocalizedDatePicker({ columnType: "datetime", tTranslate }),
         },
         "dateTimeLocal": {
-            "valueFormatter": ( value ) => (
+            "valueFormatter": ({ value }) => (
                 formatDate(value, false, false, stateData.dateTime)
             ),
-            "filterOperators": LocalizedDatePicker({ type: "dateTimeLocal", convert: true }),
+            "filterOperators": LocalizedDatePicker({ type: "dateTimeLocal", convert: true, tTranslate }),
         },
         "boolean": {
             renderCell: booleanIconRenderer
@@ -247,6 +252,53 @@ const GridBase = memo(({
     useEffect(() => {
         dataRef.current = data;
     }, [data]);
+
+    useEffect(() => {
+        setLocales({
+            footerRowSelected: (count) => count !== 1 ? `${count} ${tTranslate('rows selected', tOpts)}` : `${count} ${tTranslate('row selected', tOpts)}`,
+            footerTotalRows: `${tTranslate('Total rows', tOpts)}:`,
+            footerTotalVisibleRows: (visibleCount, totalCount) => `${visibleCount} ${tTranslate('of', tOpts)} ${totalCount}`,
+            MuiTablePagination: {
+                labelRowsPerPage: tTranslate('Rows per page', tOpts)
+            },
+            toolbarQuickFilterPlaceholder: tTranslate(model?.searchPlaceholder || 'Search...', tOpts),
+            toolbarColumns: tTranslate('Columns', tOpts),
+            toolbarFilters: tTranslate('Filters', tOpts),
+            toolbarExport: tTranslate('Export', tOpts),
+            filterPanelAddFilter: tTranslate('Add filter', tOpts),
+            filterPanelRemoveAll: tTranslate('Remove all', tOpts),
+            filterPanelDeleteIconLabel: tTranslate('Delete', tOpts),
+            filterPanelOperators: {
+                and: tTranslate('And', tOpts),
+                or: tTranslate('Or', tOpts),
+            },
+            filterPanelOperatorAnd: tTranslate('And', tOpts),
+            filterPanelOperatorOr: tTranslate('Or', tOpts),
+            filterPanelColumns: tTranslate('Columns', tOpts),
+            filterPanelOperator: tTranslate('Operator', tOpts),
+            filterPanelValue: tTranslate('Value', tOpts),
+            filterPanelInputLabel: tTranslate('Filter', tOpts),
+            filterPanelInputPlaceholder: tTranslate('Filter', tOpts),
+            columnMenuLabel: tTranslate('Menu', tOpts),
+            columnMenuShowColumns: tTranslate('Show columns', tOpts),
+            columnMenuManageColumns: tTranslate('Manage columns', tOpts),
+            columnMenuFilter: tTranslate('Filter', tOpts),
+            columnMenuHideColumn: tTranslate('Hide column', tOpts),
+            columnMenuUnsort: tTranslate('Unsort', tOpts),
+            columnMenuSortAsc: tTranslate('Sort by ascending', tOpts),
+            columnMenuSortDesc: tTranslate('Sort by descending', tOpts),
+            columnMenuPinToLeft: tTranslate('Pin to left', tOpts),
+            columnMenuPinToRight: tTranslate('Pin to right', tOpts),
+            columnMenuUnpin: tTranslate('Unpin', tOpts),
+            columnsPanelTextFieldLabel: tTranslate('Find column', tOpts),
+            columnsPanelTextFieldPlaceholder: tTranslate('Column title', tOpts),
+            columnsPanelHideAllButton: tTranslate('Hide all', tOpts),
+            columnsPanelShowAllButton: tTranslate('Show all', tOpts),
+            pinToLeft: tTranslate('Pin to left', tOpts),
+            pinToRight: tTranslate('Pin to right', tOpts),
+            unpin: tTranslate('Unpin', tOpts)
+        });
+    }, [tTranslate]);
 
     useEffect(() => {
 
@@ -351,7 +403,7 @@ const GridBase = memo(({
             if (column.link) {
                 overrides.cellClassName = "mui-grid-linkColumn";
             }
-            finalColumns.push({ headerName: column.headerName || column.label, ...column, ...overrides });
+            finalColumns.push({ headerName: tTranslate(column.headerName || column.label, tOpts), ...column, ...overrides });
             if (column.pinned) {
                 pinnedColumns[column.pinned === 'right' ? 'right' : 'left'].push(column.field);
             }
@@ -365,7 +417,7 @@ const GridBase = memo(({
             if (model?.addCreatedOnColumn !== false) {
                 finalColumns.push(
                     {
-                        field: "CreatedOn", type: "dateTime", headerName: "Created On", width: 200, filterOperators: LocalizedDatePicker({ columnType: "date" }), valueFormatter: gridColumnTypes.dateTime.valueFormatter, keepLocal: true
+                        field: "CreatedOn", type: "dateTime", headerName: "Created On", width: 200, filterOperators: LocalizedDatePicker({ columnType: "date", tTranslate }), valueFormatter: gridColumnTypes.dateTime.valueFormatter, keepLocal: true
                     }
                 );
             }
@@ -377,7 +429,7 @@ const GridBase = memo(({
             if (model?.addModifiedOnColumn !== false) {
                 finalColumns.push(
                     {
-                        field: "ModifiedOn", type: "dateTime", headerName: "Modified On", width: 200, filterOperators: LocalizedDatePicker({ columnType: "date" }), valueFormatter: gridColumnTypes.dateTime.valueFormatter, keepLocal: true
+                        field: "ModifiedOn", type: "dateTime", headerName: "Modified On", width: 200, filterOperators: LocalizedDatePicker({ columnType: "date", tTranslate }), valueFormatter: gridColumnTypes.dateTime.valueFormatter, keepLocal: true
 
                     }
                 );
@@ -416,7 +468,7 @@ const GridBase = memo(({
     }, [columns, model, parent, permissions, forAssignment]);
     const fetchData = (action = "list", extraParams = {}, contentType, columns, isPivotExport, isElasticExport) => {
         const { pageSize, page } = paginationModel;
-        let gridApi = `${model.controllerType === 'cs' ? withControllersUrl : url || ""}${model.api || api}`
+        let gridApi = `${model.controllerType === 'cs' ? withControllersUrl : url}${model.api || api}`
 
         let controllerType = model?.controllerType;
         if (isPivotExport) {
@@ -495,7 +547,6 @@ const GridBase = memo(({
                 }
             }
             const { row: record } = cellParams;
-            console.log({cellParams, record})
             const columnConfig = lookupMap[cellParams.field] || {};
             if (columnConfig.linkTo) {
                 navigate({
@@ -616,13 +667,11 @@ const GridBase = memo(({
         updateAssignment({ unassign: selection });
     }
 
-    // useEffect(() => {
-    //     if(model.preferenceId) {
-    //         removeCurrentPreferenceName({ dispatchData });
-    //         getAllSavedPreferences({ preferenceName: model.preferenceId, history: navigate, dispatchData, Username, preferenceApi, tablePreferenceEnums });
-    //         applyDefaultPreferenceIfExists({ preferenceName: model.preferenceId, history: navigate, dispatchData, Username, gridRef: apiRef, setIsGridPreferenceFetched, preferenceApi, tablePreferenceEnums });
-    //     }
-    // }, [])
+    useEffect(() => {
+        removeCurrentPreferenceName({ dispatchData });
+        getAllSavedPreferences({ preferenceName: model.preferenceId, history: navigate, dispatchData, Username, preferenceApi, tablePreferenceEnums });
+        applyDefaultPreferenceIfExists({ preferenceName: model.preferenceId, history: navigate, dispatchData, Username, gridRef: apiRef, setIsGridPreferenceFetched, preferenceApi, tablePreferenceEnums });
+    }, [])
 
     const CustomToolbar = function (props) {
 
@@ -633,22 +682,22 @@ const GridBase = memo(({
                     justifyContent: 'space-between'
                 }}
             >
-                {model.gridSubTitle && <Typography variant="h6" component="h3" textAlign="center" sx={{ ml: 1 }}> {t(model.gridSubTitle, tOpts)}</Typography>}
-                {currentPreference && <Typography className="preference-name-text" variant="h6" component="h6" textAlign="center" sx={{ ml: 1 }} >Applied Preference - {currentPreference}</Typography>}
+                {model.gridSubTitle && <Typography variant="h6" component="h3" textAlign="center" sx={{ ml: 1 }}> {tTranslate(model.gridSubTitle, tOpts)}</Typography>}
+                {currentPreference && <Typography className="preference-name-text" variant="h6" component="h6" textAlign="center" sx={{ ml: 1 }} >{tTranslate('Applied Preference', tOpts)} - {tTranslate(currentPreference, tOpts)}</Typography>}
                 {(isReadOnly || (!effectivePermissions.add && !forAssignment)) && <Typography variant="h6" component="h3" textAlign="center" sx={{ ml: 1 }} > {isReadOnly ? "" : model.title}</Typography>}
-                {!forAssignment && effectivePermissions.add && !isReadOnly && !showAddIcon && <Button startIcon={!showAddIcon ? null : <AddIcon />} onClick={onAdd} size="medium" variant="contained" className={classes.buttons} >{model?.customAddTextTitle ? model.customAddTextTitle : ` ${!showAddIcon ? "" : `${"Add"}`} ${model.title ? model.title : 'Add'}`}</Button>}
+                {!forAssignment && effectivePermissions.add && !isReadOnly && !showAddIcon && <Button startIcon={!showAddIcon ? null : <AddIcon />} onClick={onAdd} size="medium" variant="contained" className={classes.buttons} >{model?.customAddTextTitle ? model.customAddTextTitle : ` ${!showAddIcon ? "" : `${"Add"}`} ${model.title}`}</Button>}
                 {available && <Button startIcon={!showAddIcon ? null : <AddIcon />} onClick={onAssign} size="medium" variant="contained" className={classes.buttons}  >{"Assign"}</Button>}
                 {assigned && <Button startIcon={!showAddIcon ? null : <RemoveIcon />} onClick={onUnassign} size="medium" variant="contained" className={classes.buttons}  >{"Remove"}</Button>}
 
                 <GridToolbarContainer {...props}>
                     <GridToolbarColumnsButton />
                     <GridToolbarFilterButton />
-                    <Button startIcon={<FilterListOffIcon />} onClick={clearFilters} size="small">{"CLEAR FILTER"}</Button>
+                    <Button startIcon={<FilterListOffIcon />} onClick={clearFilters} size="small">{tTranslate("CLEAR FILTER", tOpts)}</Button>
                     {effectivePermissions.export && (
-                        <CustomExportButton handleExport={handleExport} showPivotExportBtn={model?.showPivotExportBtn} showOnlyExcelExport={model.showOnlyExcelExport} />
+                        <CustomExportButton tTranslate={tTranslate} tOpts={tOpts} handleExport={handleExport} showPivotExportBtn={model?.showPivotExportBtn} showOnlyExcelExport={model.showOnlyExcelExport} />
                     )}
                     {model.preferenceId &&
-                        <GridPreferences preferenceName={model.preferenceId} gridRef={apiRef} columns={gridColumns} setIsGridPreferenceFetched={setIsGridPreferenceFetched} />
+                        <GridPreferences tTranslate={tTranslate} preferenceName={model.preferenceId} gridRef={apiRef} columns={gridColumns} setIsGridPreferenceFetched={setIsGridPreferenceFetched} />
                     }
                 </GridToolbarContainer>
             </div >
@@ -674,19 +723,17 @@ const GridBase = memo(({
                 snackbar.showMessage('You cannot export while all columns are hidden... please show at least 1 column before exporting');
                 return;
             }
-
             visibleColumns.forEach(ele => {
-                columns[ele] = { field: ele, width: lookup[ele].width, headerName: lookup[ele].headerName || lookup[ele].field, type: lookup[ele].type, keepLocal: lookup[ele].keepLocal === true, isParsable: lookup[ele]?.isParsable };
+                columns[ele] = { field: ele, width: lookup[ele].width, headerName: lookup[ele].headerName, type: lookup[ele].type, keepLocal: lookup[ele].keepLocal === true, isParsable: lookup[ele]?.isParsable };
             })
 
             fetchData(isPivotExport ? 'export' : undefined, undefined, e.target.dataset.contentType, columns, isPivotExport, isElasticScreen);
         }
     };
-
     useEffect(() => {
-        // if (isGridPreferenceFetched) {
+        if (isGridPreferenceFetched) {
             fetchData();
-        // }
+        }
     }, [paginationModel, sortModel, filterModel, api, gridColumns, model, parentFilters, assigned, selected, available, chartFilters, isGridPreferenceFetched, reRenderKey])
 
     useEffect(() => {
@@ -821,7 +868,8 @@ const GridBase = memo(({
                 slotProps={{
                     footer: {
                         pagination: true,
-                        apiRef
+                        apiRef,
+                        tTranslate: tTranslate
                     },
                     panel: {
                         placement: "bottom-end"
@@ -841,6 +889,7 @@ const GridBase = memo(({
                     },
                     pinnedColumns: pinnedColumns
                 }}
+                localeText={locales}
             />
             {isOrderDetailModalOpen && selectedOrder && model.OrderModal && (
                 <model.OrderModal
@@ -857,7 +906,6 @@ const GridBase = memo(({
             )}
             {errorMessage && (<DialogComponent open={!!errorMessage} onConfirm={clearError} onCancel={clearError} title="Info" hideCancelButton={true} > {errorMessage}</DialogComponent>)
             }
-            {console.log(record)}
             {isDeleting && !errorMessage && (<DialogComponent open={isDeleting} onConfirm={handleDelete} onCancel={() => setIsDeleting(false)} title="Confirm Delete"> {`${'Are you sure you want to delete'} ${record?.name}?`}</DialogComponent>)}
         </div >
     );
